@@ -20,4 +20,4 @@ XSLT şablonu eFatura ve eArşiv için tasarlanmıştır. Basitleştirilmiş sti
 ### Ek Bilgi
 Şablon önemli ölçüde basitleştirilmiş, normal bir stile getirilmiş, tamamen geçerli bir XSLT'dir. Tüm stiller kaldırılmış ve stil başlığına taşınmıştır.
 
-![image](preview.png)
+![image](preview.jpg)
