@@ -643,12 +643,12 @@
 					<xsl:choose>
 						<xsl:when test="$currencyCode != 'TRY' and $currencyCode != 'TRL'">
 							<xsl:value-of
-								select="format-number(//n1:Invoice/cac:LegalMonetaryTotal/cbc:LineExtensionAmount * $exchangeRate, '#####0,00', 'european')"
+								select="format-number(//n1:Invoice/cac:LegalMonetaryTotal/cbc:PayableAmount * $exchangeRate, '#####0,00', 'european')"
 							/>
 						</xsl:when>
 						<xsl:otherwise>
 							<xsl:value-of
-								select="format-number(//n1:Invoice/cac:LegalMonetaryTotal/cbc:LineExtensionAmount, '#####0,00', 'european')"
+								select="format-number(//n1:Invoice/cac:LegalMonetaryTotal/cbc:PayableAmount, '#####0,00', 'european')"
 							/>
 						</xsl:otherwise>
 					</xsl:choose>
@@ -1163,18 +1163,15 @@
 					<tbody>
 						<xsl:for-each select="//n1:Invoice/cac:InvoiceLine">
 							<tr>
-								<td>
+								<!--/* Sıra No */-->
+								<td data-id="Invoice/InvoiceLine/ID; Sıra No">
 									<xsl:value-of select="./cbc:ID"/>
 								</td>
-								<!--/* sıra no değer */-->
 								<xsl:if test="//n1:Invoice/cbc:ProfileID = 'IHRACAT'">
-									<td>
+									<td data-id="Item/SellersItemIdentification/ID">
 										<xsl:choose>
-											<xsl:when
-												test="./cac:Item/cac:SellersItemIdentification/cbc:ID != ''">
-												<xsl:value-of
-												select="./cac:Item/cac:SellersItemIdentification/cbc:ID"
-												/>
+											<xsl:when test="./cac:Item/cac:SellersItemIdentification/cbc:ID != ''">
+												<xsl:value-of select="./cac:Item/cac:SellersItemIdentification/cbc:ID"/>
 											</xsl:when>
 											<xsl:otherwise>
 												<xsl:value-of select="./cac:Item/cbc:Name"/>
@@ -1185,15 +1182,12 @@
 										<xsl:value-of select="./cac:Item/cbc:Description"/>
 									</td>
 								</xsl:if>
-								<!-- ihracat malzeme hizmet açıklama -->
+								<!-- Malzeme / Hizmet Kodu -->
 								<xsl:if test="//n1:Invoice/cbc:ProfileID != 'IHRACAT'">
-									<td>
+									<td data-id="SellersItemIdentification/ID; Malzeme / Hizmet Kodu">
 										<xsl:choose>
-											<xsl:when
-												test="./cac:Item/cac:SellersItemIdentification/cbc:ID != ''">
-												<xsl:value-of
-												select="./cac:Item/cac:SellersItemIdentification/cbc:ID"
-												/>
+											<xsl:when test="./cac:Item/cac:SellersItemIdentification/cbc:ID != ''">
+												<xsl:value-of select="./cac:Item/cac:SellersItemIdentification/cbc:ID"/>
 											</xsl:when>
 											<xsl:otherwise>
 												<xsl:value-of select="./cac:Item/cbc:Name"/>
@@ -1201,16 +1195,15 @@
 										</xsl:choose>
 									</td>
 								</xsl:if>
-								<!--/* malzeme hizmet kodu değer */-->
+								<!--/* Malzeme / Hizmet Açıklaması */-->
 								<xsl:if test="//n1:Invoice/cbc:ProfileID != 'IHRACAT'">
-									<td>
+									<td data-id="Item/Description; Malzeme / Hizmet Açıklaması">
 										<xsl:value-of select="./cac:Item/cbc:Description"/>
 									</td>
 								</xsl:if>
-								<!--/* malzeme hizmet açıklaması değer */-->
-								<td>
-									<xsl:value-of
-										select="format-number(./cbc:InvoicedQuantity, '###.###,##', 'european')"/>
+								<!--/* Miktar */-->
+								<td data-id="InvoicedQuantity; Miktar">
+									<xsl:value-of select="format-number(./cbc:InvoicedQuantity, '###.###,##', 'european')"/>
 									<xsl:if test="./cbc:InvoicedQuantity/@unitCode">
 										<xsl:for-each select="./cbc:InvoicedQuantity">
 											&#160;
@@ -1220,8 +1213,8 @@
 										</xsl:for-each>
 									</xsl:if>
 								</td>
-								<!--/*miktar değer*/-->
-								<td style="text-align: right;">
+								<!--/* Birim Fiyat */-->
+								<td style="text-align: right;" data-id="Price/PriceAmount; Birim Fiyat">
 									<xsl:value-of
 										select="format-number(./cac:Price/cbc:PriceAmount, '###.##0,0000', 'european')"/>
 									<xsl:if test="./cac:Price/cbc:PriceAmount/@currencyID">
@@ -1235,18 +1228,16 @@
 										</xsl:if>
 									</xsl:if>
 								</td>
-								<!--/* birim fiyat değer*/-->
-								<td style="text-align: right;">
-
+								<!--/* İskonto Oranı */-->
+								<td style="text-align: right;" data-id="AllowanceCharge; İskonto Oranı">
 									<xsl:for-each select="./cac:AllowanceCharge">
 										<xsl:text/>
 										<xsl:text>%</xsl:text>
 										<xsl:value-of select="format-number(cbc:MultiplierFactorNumeric * 100, '###.##0,00', 'european')"/>
 									</xsl:for-each>
 								</td>
-								<!--/* iskonto oranı değer */-->
-								<td style="text-align: right;">
-
+								<!--/* İskonto Tutarı */-->
+								<td style="text-align: right;" data-id="AllowanceCharge">
 									<xsl:for-each select="./cac:AllowanceCharge">
 										<xsl:text/>
 										<xsl:value-of
@@ -1262,11 +1253,9 @@
 										</xsl:if>
 									</xsl:for-each>
 								</td>
-								<!--/* iskonto tutar değer */-->
-								<td>
-
-									<xsl:for-each
-										select="./cac:TaxTotal/cac:TaxSubtotal/cac:TaxCategory/cac:TaxScheme">
+								<!--/* KDV Oranı */-->
+								<td data-id="TaxTotal/TaxSubtotal/TaxCategory/TaxScheme; KDV Oranı">
+									<xsl:for-each select="./cac:TaxTotal/cac:TaxSubtotal/cac:TaxCategory/cac:TaxScheme">
 										<xsl:if test="cbc:TaxTypeCode = '0015'">
 											<xsl:if test="../../cbc:Percent">
 												<xsl:text>%</xsl:text>
@@ -1275,20 +1264,16 @@
 										</xsl:if>
 									</xsl:for-each>
 								</td>
-								<!--// kdv oran değer-->
-								<td style="text-align: right;">
-
-									<xsl:for-each
-										select="./cac:TaxTotal/cac:TaxSubtotal/cac:TaxCategory/cac:TaxScheme">
+								<!--/* KDV Tutarı */-->
+								<td style="text-align: right;" data-id="TaxTotal/TaxSubtotal/TaxCategory/TaxScheme; KDV Tutarı">
+									<xsl:for-each select="./cac:TaxTotal/cac:TaxSubtotal/cac:TaxCategory/cac:TaxScheme">
 										<xsl:if test="cbc:TaxTypeCode = '0015'">
 											<xsl:text/>
-											<xsl:value-of
-												select="format-number(../../cbc:TaxAmount, '###.##0,00', 'european')"/>
+											<xsl:value-of select="format-number(../../cbc:TaxAmount, '###.##0,00', 'european')"/>
 											<xsl:if test="../../cbc:TaxAmount/@currencyID">
 												<xsl:text/>
-												<xsl:if
-												test="../../cbc:TaxAmount/@currencyID = 'TRY'">
-												<xsl:text>&#160;TL</xsl:text>
+												<xsl:if test="../../cbc:TaxAmount/@currencyID = 'TRY'">
+													<xsl:text>&#160;TL</xsl:text>
 												</xsl:if>
 												<xsl:if test="../../cbc:TaxAmount/@currencyID != 'TRY'">
 													&#160;<xsl:value-of select="../../cbc:TaxAmount/@currencyID"/>
@@ -1297,8 +1282,8 @@
 										</xsl:if>
 									</xsl:for-each>
 								</td>
-								<td style="text-align: right;">
-
+								<!--/* Malzeme / Hizmet Tutarı */-->
+								<td style="text-align: right;" data-id="LineExtensionAmount; Malzeme / Hizmet Tutarı">
 									<xsl:value-of
 										select="format-number(./cbc:LineExtensionAmount, '###.##0,00', 'european')"/>
 									<xsl:if test="./cbc:LineExtensionAmount/@currencyID">
