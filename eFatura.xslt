@@ -2075,7 +2075,7 @@
     document.getElementById("numberInputToWord").innerHTML = "<strong>Yalnız:</strong> " + text + " TL";
     
     function convertNumberToWords(number) {
-        const belowTwenty =[ 'Sıfır', 'Bir', 'İki', 'Üç', 'Dört', 'Beş', 'Altı', 'Yedi', 'Sekiz', 'Dokuz', 'On', 'On bir', 'On iki', 'On üç', 'On dört', 'On beş', 'On altı', 'On yedi', 'On sekiz', 'On dokuz'];
+        const belowTwenty =[ 'Sıfır', 'Bir', 'İki', 'Üç', 'Dört', 'Beş', 'Altı', 'Yedi', 'Sekiz', 'Dokuz', 'On', 'On Bir', 'On İki', 'On Üç', 'On Dört', 'On Beş', 'On Altı', 'On Yedi', 'On Sekiz', 'On Dokuz'];
         const tens =[ '', '', 'Yirmi', 'Otuz', 'Kırk', 'Elli', 'Altmış', 'Yetmiş', 'Seksen', 'Doksan'];
         
         if (number < 20) return belowTwenty[number];
