@@ -712,6 +712,30 @@
 
 									</tbody>
 								</table>
+								<xsl:variable name="hasAddSection" select="count(/n1:Invoice/cac:AdditionalDocumentReference[cbc:DocumentTypeCode='AddSection']) > 0"/>
+								<xsl:choose>
+									<xsl:when test="$hasAddSection > 0">
+										<table id="additional_section" style="margin-top: 10px; margin-bottom: 10px;" class="metro-invoice-line-table">
+											<thead>
+												<tr>
+													<td>
+														<strong><xsl:value-of select="/n1:Invoice/cac:AdditionalDocumentReference[cbc:DocumentTypeCode='AddSection' and cbc:DocumentType='Title']/cbc:DocumentDescription"/></strong>
+													</td>
+												</tr>
+											</thead>
+											<tr>
+												<td>
+													<xsl:value-of select="/n1:Invoice/cac:AdditionalDocumentReference[cbc:DocumentTypeCode='AddSection' and cbc:DocumentType='Name']/cbc:DocumentDescription"/>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<xsl:value-of select="/n1:Invoice/cac:AdditionalDocumentReference[cbc:DocumentTypeCode='AddSection' and cbc:DocumentType='Address']/cbc:DocumentDescription"/>
+												</td>
+											</tr>
+										</table>
+									</xsl:when>
+								</xsl:choose>
 							</td>
 							<td width="20%" align="center" style="vertical-align: top;">
 								<div class="GIBLogo"/>
