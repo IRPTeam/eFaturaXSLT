@@ -24,7 +24,6 @@
 	<xsl:param name="SV_OutputFormat" select="'HTML'"/>
 	<xsl:variable name="XML" select="/"/>
 	<xsl:template match="/">
-
 		<xsl:variable name="hasNote" select="count(//n1:Invoice/cac:InvoiceLine/cbc:Note) > 0"/>
 
 		<xsl:text disable-output-escaping="yes">&lt;!DOCTYPE html&gt;</xsl:text>
@@ -730,9 +729,40 @@
 											</tr>
 											<tr>
 												<td>
-													<xsl:value-of select="/n1:Invoice/cac:AdditionalDocumentReference[cbc:DocumentTypeCode='AddSection' and cbc:DocumentType='Address']/cbc:DocumentDescription"/>
+													<xsl:call-template name="replace-newlines">
+														<xsl:with-param name="text" select="/n1:Invoice/cac:AdditionalDocumentReference[cbc:DocumentTypeCode='AddSection' and cbc:DocumentType='Address']/cbc:DocumentDescription"/>
+													</xsl:call-template>
+													
 												</td>
 											</tr>
+											<xsl:variable name="hasAddSectionTel" select="count(/n1:Invoice/cac:AdditionalDocumentReference[cbc:DocumentTypeCode='AddSection' and cbc:DocumentType='Telephone']) > 0"/>
+											<xsl:choose>
+												<xsl:when test="$hasAddSectionTel > 0">
+													<tr>
+														<td>
+															<span class="pair_key">Tel</span>
+															<span class="pair_seperator">:</span>
+															<span class="pair_value">
+															<xsl:value-of select="/n1:Invoice/cac:AdditionalDocumentReference[cbc:DocumentTypeCode='AddSection' and cbc:DocumentType='Telephone']/cbc:DocumentDescription"/>
+															</span>
+														</td>
+													</tr>
+												</xsl:when>
+											</xsl:choose>
+											<xsl:variable name="hasAddSectionEmail" select="count(/n1:Invoice/cac:AdditionalDocumentReference[cbc:DocumentTypeCode='AddSection' and cbc:DocumentType='Email']) > 0"/>
+											<xsl:choose>
+												<xsl:when test="$hasAddSectionEmail > 0">
+													<tr>
+														<td>
+															<span class="pair_key">E-Posta</span>
+															<span class="pair_seperator">:</span>
+															<span class="pair_value">
+															<xsl:value-of select="/n1:Invoice/cac:AdditionalDocumentReference[cbc:DocumentTypeCode='AddSection' and cbc:DocumentType='Email']/cbc:DocumentDescription"/>
+															</span>
+														</td>
+													</tr>
+												</xsl:when>
+											</xsl:choose>
 										</table>
 									</xsl:when>
 								</xsl:choose>
@@ -2736,4 +2766,20 @@
 
 		</xsl:for-each>
 	</xsl:template>
+	<xsl:template name="replace-newlines">
+		<xsl:param name="text"/>
+		<xsl:choose>
+			<xsl:when test="contains($text, '&#10;')">
+				<xsl:value-of select="substring-before($text,'&#10;')"/>
+				<br/>
+				<xsl:call-template name="replace-newlines">
+					<xsl:with-param name="text" select="substring-after($text,'&#10;')"/>
+				</xsl:call-template>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="$text"/>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+	
 </xsl:stylesheet>
