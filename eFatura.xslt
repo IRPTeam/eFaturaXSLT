@@ -124,7 +124,7 @@
 					
 					.metro-invoice-line-table thead,
 					.metro-invoice-line-table td {
-					    padding: 5px;
+					    padding: 2px;
 					    border-bottom: 1px solid var(--border-color);
 					}
 					
@@ -763,6 +763,21 @@
 													</tr>
 												</xsl:when>
 											</xsl:choose>
+											<xsl:for-each select="/n1:Invoice/cac:AdditionalDocumentReference[cbc:DocumentTypeCode='AddSectionOther']">
+												<tr>
+													<td>
+														<span class="pair_key">
+															<xsl:value-of select="cbc:DocumentType"/>
+														</span>
+														<span class="pair_seperator">:</span>
+														<span class="pair_value">
+															<xsl:value-of select="cbc:DocumentDescription"/>
+														</span>
+													</td>
+												</tr>
+											</xsl:for-each>
+											
+											
 										</table>
 									</xsl:when>
 								</xsl:choose>
