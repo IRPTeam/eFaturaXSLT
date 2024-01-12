@@ -2143,19 +2143,28 @@
     }
     document.getElementById("numberInputToWord").innerHTML = "<strong>Yalnız:</strong> " + text + " TL";
     
-    function convertNumberToWords(number) {
-        const belowTwenty =[ 'Sıfır', 'Bir', 'İki', 'Üç', 'Dört', 'Beş', 'Altı', 'Yedi', 'Sekiz', 'Dokuz', 'On', 'On Bir', 'On İki', 'On Üç', 'On Dört', 'On Beş', 'On Altı', 'On Yedi', 'On Sekiz', 'On Dokuz'];
-        const tens =[ '', '', 'Yirmi', 'Otuz', 'Kırk', 'Elli', 'Altmış', 'Yetmiş', 'Seksen', 'Doksan'];
-        
-        if (number < 20) return belowTwenty[number];
-        if (number < 100) return tens[Math.floor(number / 10)] + (number % 10 !== 0 ? ' ' + belowTwenty[number % 10]: '');
-        if (number < 1000) return belowTwenty[Math.floor(number / 100)] + ' Yüz' + (number % 100 !== 0 ? ' ' + convertNumberToWords(number % 100): '');
-        if (number < 1000000) return convertNumberToWords(Math.floor(number / 1000)) + ' Bin' + (number % 1000 !== 0 ? ' ' + convertNumberToWords(number % 1000): '');
-        if (number < 1000000000) return convertNumberToWords(Math.floor(number / 1000000)) + ' Milyon' + (number % 1000000 !== 0 ? ' ' + convertNumberToWords(number % 1000000): '');
-        if (number < 1000000000000) return convertNumberToWords(Math.floor(number / 1000000000)) + ' Milyar' + (number % 1000000000 !== 0 ? ' ' + convertNumberToWords(number % 1000000000): '');
-        
-        return '';
-    }//]]>
+	function convertNumberToWords(number) {
+	    const belowTwenty = ['Sıfır', 'Bir', 'İki', 'Üç', 'Dört', 'Beş', 'Altı', 'Yedi', 'Sekiz', 'Dokuz', 'On', 'On Bir', 'On İki', 'On Üç', 'On Dört', 'On Beş', 'On Altı', 'On Yedi', 'On Sekiz', 'On Dokuz'];
+	    const tens = ['', '', 'Yirmi', 'Otuz', 'Kırk', 'Elli', 'Altmış', 'Yetmiş', 'Seksen', 'Doksan'];
+	
+	    if (number < 20) return belowTwenty[number];
+	    if (number < 100) return tens[Math.floor(number / 10)] + (number % 10 !== 0 ? ' ' + belowTwenty[number % 10] : '');
+	    
+	    if (number === 100) return 'Yüz';
+	    if (number < 1000) return (number >= 200 ? belowTwenty[Math.floor(number / 100)] + ' ' : '') + 'Yüz' + (number % 100 !== 0 ? ' ' + convertNumberToWords(number % 100) : '');
+	    
+	    if (number === 1000) return 'Bin';
+	    if (number < 1000000) return (number >= 2000 ? convertNumberToWords(Math.floor(number / 1000)) + ' ' : '') + 'Bin' + (number % 1000 !== 0 ? ' ' + convertNumberToWords(number % 1000) : '');
+	    
+	    if (number === 1000000) return 'Milyon';
+	    if (number < 1000000000) return (number >= 2000000 ? convertNumberToWords(Math.floor(number / 1000000)) + ' ' : '') + 'Milyon' + (number % 1000000 !== 0 ? ' ' + convertNumberToWords(number % 1000000) : '');
+	    
+	    if (number === 1000000000) return 'Milyar';
+	    if (number < 1000000000000) return (number >= 2000000000 ? convertNumberToWords(Math.floor(number / 1000000000)) + ' ' : '') + 'Milyar' + (number % 1000000000 !== 0 ? ' ' + convertNumberToWords(number % 1000000000) : '');
+	
+	    return '';
+	}
+//]]>
 				</script>
 			</body>
 		</html>
