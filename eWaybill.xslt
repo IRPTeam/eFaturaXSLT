@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Version for IRP. info@irpteam.com -->
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:ccts="urn:un:unece:uncefact:documentation:2" xmlns:clm54217="urn:un:unece:uncefact:codelist:specification:54217:2001" xmlns:clm5639="urn:un:unece:uncefact:codelist:specification:5639:1988" xmlns:clm66411="urn:un:unece:uncefact:codelist:specification:66411:2001" xmlns:clmIANAMIMEMediaType="urn:un:unece:uncefact:codelist:specification:IANAMIMEMediaType:2003" xmlns:fn="http://www.w3.org/2005/xpath-functions" xmlns:link="http://www.xbrl.org/2003/linkbase" xmlns:n1="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:qdt="urn:oasis:names:specification:ubl:schema:xsd:QualifiedDatatypes-2" xmlns:udt="urn:un:unece:uncefact:data:specification:UnqualifiedDataTypesSchemaModule:2" xmlns:xbrldi="http://xbrl.org/2006/xbrldi" xmlns:xbrli="http://www.xbrl.org/2003/instance" xmlns:xdt="http://www.w3.org/2005/xpath-datatypes" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ext="urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:xades="http://uri.etsi.org/01903/v1.3.2#" exclude-result-prefixes="cac cbc ccts clm54217 clm5639 clm66411 clmIANAMIMEMediaType fn link n1 qdt udt xbrldi xbrli xdt xlink xs xsd xsi ext ds xades">
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:ccts="urn:un:unece:uncefact:documentation:2" xmlns:clm54217="urn:un:unece:uncefact:codelist:specification:54217:2001" xmlns:clm5639="urn:un:unece:uncefact:codelist:specification:5639:1988" xmlns:clm66411="urn:un:unece:uncefact:codelist:specification:66411:2001" xmlns:clmIANAMIMEMediaType="urn:un:unece:uncefact:codelist:specification:IANAMIMEMediaType:2003" xmlns:fn="http://www.w3.org/2005/xpath-functions" xmlns:link="http://www.xbrl.org/2003/linkbase" xmlns:n1="urn:oasis:names:specification:ubl:schema:xsd:DespatchAdvice-2" xmlns:qdt="urn:oasis:names:specification:ubl:schema:xsd:QualifiedDatatypes-2" xmlns:udt="urn:un:unece:uncefact:data:specification:UnqualifiedDataTypesSchemaModule:2" xmlns:xbrldi="http://xbrl.org/2006/xbrldi" xmlns:xbrli="http://www.xbrl.org/2003/instance" xmlns:xdt="http://www.w3.org/2005/xpath-datatypes" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" exclude-result-prefixes="cac cbc ccts clm54217 clm5639 clm66411 clmIANAMIMEMediaType fn link n1 qdt udt xbrldi xbrli xdt xlink xs xsd xsi">
 	<xsl:decimal-format name="european" decimal-separator="," grouping-separator="." NaN=""/>
 	<xsl:output method="html" encoding="utf-8" indent="yes"/>
 	<xsl:param name="SV_OutputFormat" select="'HTML'"/>
 	<xsl:variable name="XML" select="/"/>
 	<xsl:template match="/">
-		<xsl:variable name="hasNote" select="count(//n1:Invoice/cac:InvoiceLine/cbc:Note) > 0"/>
+		<xsl:variable name="hasNote" select="count(//n1:DespatchAdvice/cac:DespatchLine/cac:Shipment/cac:GoodsItem/cac:InvoiceLine/cbc:Note) > 0"/>
 		<xsl:text disable-output-escaping="yes">&lt;!DOCTYPE html&gt;</xsl:text>
 		<html>
 			<xsl:text disable-output-escaping="yes">&lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/&gt;</xsl:text>
@@ -582,1208 +581,801 @@
                     ();//]]></script>
 			</head>
 			<body>
-				<div id="qrvalue" style="visibility: hidden">
-					<xsl:variable name="vkntckn" select="n1:Invoice/cac:AccountingSupplierParty/cac:Party/cac:PartyIdentification/cbc:ID[@schemeID = 'TCKN' or @schemeID = 'VKN']"/>
-					<xsl:variable name="avkntckn" select="n1:Invoice/cac:AccountingCustomerParty/cac:Party/cac:PartyIdentification/cbc:ID[@schemeID = 'TCKN' or @schemeID = 'VKN']"/>
-					<xsl:variable name="senaryo" select="n1:Invoice/cbc:ProfileID"/>
-					<xsl:variable name="tip" select="n1:Invoice/cbc:InvoiceTypeCode"/>
-					<xsl:variable name="tarih" select="n1:Invoice/cbc:IssueDate"/>
-					<xsl:variable name="no" select="n1:Invoice/cbc:ID"/>
-					<xsl:variable name="ettn" select="n1:Invoice/cbc:UUID"/>
-					<xsl:variable name="paraBirimi" select="n1:Invoice/cbc:DocumentCurrencyCode"/>
-					<xsl:variable name="malhizmettoplam" select="n1:Invoice/cac:LegalMonetaryTotal/cbc:LineExtensionAmount"/>
-					<xsl:variable name="vergidahil" select="n1:Invoice/cac:LegalMonetaryTotal/cbc:TaxInclusiveAmount"/>
-					<xsl:variable name="odenecek" select="n1:Invoice/cac:LegalMonetaryTotal/cbc:PayableAmount"/> {
-						"vkntckn":"<xsl:value-of select="$vkntckn"/>", "avkntckn":"<xsl:value-of select="$avkntckn"/>", "senaryo":"<xsl:value-of select="$senaryo"/>",
-						"tip":"<xsl:value-of select="$tip"/>", "tarih":"<xsl:value-of select="$tarih"/>", "no":"<xsl:value-of select="$no"/>",
-						"ettn":"<xsl:value-of select="$ettn"/>", "paraBirimi":"<xsl:value-of select="$paraBirimi"/>", "malhizmettoplam":"<xsl:value-of select="$malhizmettoplam"/>", <xsl:for-each select="n1:Invoice/cac:TaxTotal/cac:TaxSubtotal[cac:TaxCategory/cac:TaxScheme/cbc:TaxTypeCode = '0015']"> "kdvmatrah(<xsl:value-of select="cbc:Percent"/>)":"<xsl:value-of select="./cbc:TaxableAmount[../cac:TaxCategory/cac:TaxScheme/cbc:TaxTypeCode = '0015']"/>", </xsl:for-each>
-					<xsl:for-each select="n1:Invoice/cac:TaxTotal/cac:TaxSubtotal[cac:TaxCategory/cac:TaxScheme/cbc:TaxTypeCode = '0015']"> "hesaplanankdv(<xsl:value-of select="cbc:Percent"/>)":"<xsl:value-of select="./cbc:TaxAmount"/>", </xsl:for-each> "vergidahil":"<xsl:value-of select="$vergidahil"/>", "odenecek":<xsl:value-of select="$odenecek"/> } 
-				</div>
-				<div id="numberInput" style="visibility: hidden">
-					<xsl:variable name="currencyCode" select="//n1:Invoice/cbc:DocumentCurrencyCode"/>
-					<xsl:variable name="exchangeRate" select="//n1:Invoice/cac:PricingExchangeRate/cbc:CalculationRate"/>
-					<xsl:choose>
-						<xsl:when test="$currencyCode != 'TRY' and $currencyCode != 'TRL'">
-							<xsl:value-of select="format-number(//n1:Invoice/cac:LegalMonetaryTotal/cbc:PayableAmount * $exchangeRate, '#####0,00', 'european')"/>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:value-of select="format-number(//n1:Invoice/cac:LegalMonetaryTotal/cbc:PayableAmount, '#####0,00', 'european')"/>
-						</xsl:otherwise>
-					</xsl:choose>
-				</div>
-				<table width="100%">
-					<tbody>
-						<tr>
-							<td width="40%" style="vertical-align: top;">
-								<table class="metro-invoice-line-table">
-									<thead>
-										<tr>
-											<td>
-												<strong>Tedarikçi</strong>
-											</td>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td style="font-weight: bold;">
-												<xsl:for-each select="//n1:Invoice/cac:AccountingSupplierParty/cac:Party">
-													<xsl:if test="./cac:PartyName">
-														<xsl:value-of select="./cac:PartyName/cbc:Name"/>
-														<div style="clear:both"/>
-													</xsl:if>
-													<xsl:if test="./cac:Person/cbc:Title">
-														<xsl:value-of select="./cac:Person/cbc:Title"/>
-													</xsl:if>
-													<xsl:if test="./cac:Person/cbc:FirstName">
-														<xsl:value-of select="./cac:Person/cbc:FirstName"/>
-													</xsl:if>
-													<xsl:if test="./cac:Person/cbc:MiddleName">
-														<xsl:value-of select="./cac:Person/cbc:MiddleName"/>
-													</xsl:if>
-													<xsl:if test="./cac:Person/cbc:FamilyName">
-														<xsl:value-of select="./cac:Person/cbc:FamilyName"/>
-													</xsl:if>
-													<xsl:if test="./cac:Person/cbc:NameSuffix">
-														<xsl:value-of select="./cac:Person/cbc:NameSuffix"/>
-													</xsl:if>
-												</xsl:for-each>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<xsl:call-template name="renderAddress">
-													<xsl:with-param name="dynamicPath" select="//n1:Invoice/cac:AccountingSupplierParty"/>
-												</xsl:call-template>
-											</td>
-										</tr>
-										<xsl:call-template name="renderContactInfo">
-											<xsl:with-param name="dynamicPath" select="//n1:Invoice/cac:AccountingSupplierParty"/>
-										</xsl:call-template>
-									</tbody>
-								</table>
-								<xsl:variable name="hasAddSection" select="count(/n1:Invoice/cac:AdditionalDocumentReference[cbc:DocumentTypeCode = 'AddSection']) > 0"/>
-								<xsl:choose>
-									<xsl:when test="$hasAddSection > 0">
-										<table id="additional_section" style="margin-top: 10px; margin-bottom: 10px;" class="metro-invoice-line-table">
+				<div id="qrvalue" style="visibility: hidden"> {"vkntckn":"<xsl:value-of select="n1:DespatchAdvice/cac:DespatchSupplierParty/cac:Party/cac:PartyIdentification/cbc:ID[@schemeID = 'TCKN' or @schemeID = 'VKN']"/>", "avkntckn":"<xsl:value-of select="n1:DespatchAdvice/cac:DeliveryCustomerParty/cac:Party/cac:PartyIdentification/cbc:ID[@schemeID = 'TCKN' or @schemeID = 'VKN']"/>", "senaryo":"<xsl:value-of select="n1:DespatchAdvice/cbc:ProfileID"/>",
+						"tip":"<xsl:value-of select="n1:DespatchAdvice/cbc:DespatchAdviceTypeCode"/>", "tarih":"<xsl:value-of select="n1:DespatchAdvice/cbc:IssueDate"/>",
+						"no":"<xsl:value-of select="n1:DespatchAdvice/cbc:ID"/>",
+						"ettn":"<xsl:value-of select="n1:DespatchAdvice/cbc:UUID"/>",
+						"sevktarihi":"<xsl:for-each select="n1:DespatchAdvice/cac:Shipment/cac:Delivery/cac:Despatch/cbc:ActualDespatchDate">
+						<xsl:apply-templates select="."/>
+					</xsl:for-each>",
+						"sevkzamani":"<xsl:for-each select="n1:DespatchAdvice/cac:Shipment/cac:Delivery/cac:Despatch/cbc:ActualDespatchTime">
+						<xsl:apply-templates select="."/>
+					</xsl:for-each>",
+						"tasiyicivkn":"<xsl:for-each select="//cac:CarrierParty">
+						<xsl:if test="cac:PartyIdentification/cbc:ID[@schemeID = 'VKN']">
+							<xsl:value-of select="./cac:PartyIdentification/cbc:ID"/>
+						</xsl:if>
+					</xsl:for-each>
+					<xsl:for-each select="//cac:CarrierParty">
+						<xsl:if test="cac:PartyIdentification/cbc:ID[@schemeID = 'TCKN']">
+							<xsl:value-of select="./cac:PartyIdentification/cbc:ID"/>
+						</xsl:if>
+					</xsl:for-each>", "plaka":"<xsl:value-of select="n1:DespatchAdvice/cac:Shipment/cac:ShipmentStage/cac:TransportMeans/cac:RoadTransport/cbc:LicensePlateID[@schemeID = 'PLAKA']"/>"} </div>
+				<xsl:for-each select="$XML">
+					<table width="100%">
+						<tbody>
+							<tr>
+								<td width="40%" style="vertical-align: top;">
+									<table class="metro-invoice-line-table">
+										<thead>
+											<tr>
+												<td>
+													<strong>Teslim Eden</strong>
+												</td>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td style="font-weight: bold;">
+													<xsl:for-each select="//n1:DespatchAdvice/cac:DespatchSupplierParty/cac:Party">
+														<xsl:if test="./cac:PartyName">
+															<xsl:value-of select="./cac:PartyName/cbc:Name"/>
+															<div style="clear:both"/>
+														</xsl:if>
+														<xsl:if test="./cac:Person/cbc:Title">
+															<xsl:value-of select="./cac:Person/cbc:Title"/>
+														</xsl:if>
+														<xsl:if test="./cac:Person/cbc:FirstName">
+															<xsl:value-of select="./cac:Person/cbc:FirstName"/>
+														</xsl:if>
+														<xsl:if test="./cac:Person/cbc:MiddleName">
+															<xsl:value-of select="./cac:Person/cbc:MiddleName"/>
+														</xsl:if>
+														<xsl:if test="./cac:Person/cbc:FamilyName">
+															<xsl:value-of select="./cac:Person/cbc:FamilyName"/>
+														</xsl:if>
+														<xsl:if test="./cac:Person/cbc:NameSuffix">
+															<xsl:value-of select="./cac:Person/cbc:NameSuffix"/>
+														</xsl:if>
+													</xsl:for-each>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<xsl:call-template name="renderAddress">
+														<xsl:with-param name="dynamicPath" select="//n1:DespatchAdvice/cac:DespatchSupplierParty"/>
+													</xsl:call-template>
+												</td>
+											</tr>
+											<xsl:call-template name="renderContactInfo">
+												<xsl:with-param name="dynamicPath" select="//n1:DespatchAdvice/cac:DespatchSupplierParty"/>
+											</xsl:call-template>
+										</tbody>
+									</table>
+									<xsl:variable name="hasAddSection" select="count(/n1:DespatchAdvice/cac:AdditionalDocumentReference[cbc:DocumentTypeCode = 'AddSection']) > 0"/>
+									<xsl:choose>
+										<xsl:when test="$hasAddSection > 0">
+											<table id="additional_section" style="margin-top: 10px; margin-bottom: 10px;" class="metro-invoice-line-table">
+												<thead>
+													<tr>
+														<td>
+															<strong>
+																<xsl:value-of select="/n1:DespatchAdvice/cac:AdditionalDocumentReference[cbc:DocumentTypeCode = 'AddSection' and cbc:DocumentType = 'Title']/cbc:DocumentDescription"/>
+															</strong>
+														</td>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td>
+															<xsl:value-of select="/n1:DespatchAdvice/cac:AdditionalDocumentReference[cbc:DocumentTypeCode = 'AddSection' and cbc:DocumentType = 'Name']/cbc:DocumentDescription"/>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															<xsl:call-template name="replace-newlines">
+																<xsl:with-param name="text" select="/n1:DespatchAdvice/cac:AdditionalDocumentReference[cbc:DocumentTypeCode = 'AddSection' and cbc:DocumentType = 'Address']/cbc:DocumentDescription"/>
+															</xsl:call-template>
+														</td>
+													</tr>
+													<xsl:variable name="hasAddSectionTel" select="count(/n1:DespatchAdvice/cac:AdditionalDocumentReference[cbc:DocumentTypeCode = 'AddSection' and cbc:DocumentType = 'Telephone']) > 0"/>
+													<xsl:choose>
+														<xsl:when test="$hasAddSectionTel > 0">
+															<tr>
+																<td>
+																	<span class="pair_key">Tel</span>
+																	<span class="pair_seperator">:</span>
+																	<span class="pair_value">
+																		<xsl:value-of select="/n1:DespatchAdvice/cac:AdditionalDocumentReference[cbc:DocumentTypeCode = 'AddSection' and cbc:DocumentType = 'Telephone']/cbc:DocumentDescription"/>
+																	</span>
+																</td>
+															</tr>
+														</xsl:when>
+													</xsl:choose>
+													<xsl:variable name="hasAddSectionEmail" select="count(/n1:DespatchAdvice/cac:AdditionalDocumentReference[cbc:DocumentTypeCode = 'AddSection' and cbc:DocumentType = 'Email']) > 0"/>
+													<xsl:choose>
+														<xsl:when test="$hasAddSectionEmail > 0">
+															<tr>
+																<td>
+																	<span class="pair_key">E-Posta</span>
+																	<span class="pair_seperator">:</span>
+																	<span class="pair_value">
+																		<xsl:value-of select="/n1:DespatchAdvice/cac:AdditionalDocumentReference[cbc:DocumentTypeCode = 'AddSection' and cbc:DocumentType = 'Email']/cbc:DocumentDescription"/>
+																	</span>
+																</td>
+															</tr>
+														</xsl:when>
+													</xsl:choose>
+													<xsl:for-each select="/n1:DespatchAdvice/cac:AdditionalDocumentReference[cbc:DocumentTypeCode = 'AddSectionOther']">
+														<tr>
+															<td>
+																<span class="pair_key">
+																	<xsl:value-of select="cbc:DocumentType"/>
+																</span>
+																<span class="pair_seperator">:</span>
+																<span class="pair_value">
+																	<xsl:value-of select="cbc:DocumentDescription"/>
+																</span>
+															</td>
+														</tr>
+													</xsl:for-each>
+												</tbody>
+											</table>
+										</xsl:when>
+									</xsl:choose>
+								</td>
+								<td width="20%" align="center" style="vertical-align: top;">
+									<div class="GIBLogo"/>
+									<xsl:call-template name="checkProfileID"/>
+									<p>&#160;</p>
+									<div class="Sign"/>
+								</td>
+								<td width="50%" align="center" style="vertical-align: top;">
+									<div style="display: block" id="qrcode"/>
+									<img class="CompanyLogo"/>
+								</td>
+							</tr>
+							<tr>
+								<td width="40%" valign="top" style="vertical-align: top;">
+									<table class="metro-invoice-line-table">
+										<thead>
+											<tr>
+												<td>
+													<strong>Teslim Alan</strong>
+												</td>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>
+													<xsl:for-each select="//n1:DespatchAdvice/cac:DeliveryCustomerParty/cac:Party">
+														<xsl:if test="./cac:PartyName">
+															<xsl:value-of select="./cac:PartyName/cbc:Name"/>
+															<div style="clear:both"/>
+														</xsl:if>
+														<xsl:if test="./cac:Person/cbc:Title">
+															<xsl:value-of select="./cac:Person/cbc:Title"/>
+														</xsl:if>
+														<xsl:if test="./cac:Person/cbc:FirstName">
+															<xsl:value-of select="./cac:Person/cbc:FirstName"/>
+														</xsl:if>
+														<xsl:if test="./cac:Person/cbc:MiddleName">
+															<xsl:value-of select="./cac:Person/cbc:MiddleName"/>
+														</xsl:if>
+														<xsl:if test="./cac:Person/cbc:FamilyName">
+															<xsl:value-of select="./cac:Person/cbc:FamilyName"/>
+														</xsl:if>
+														<xsl:if test="./cac:Person/cbc:NameSuffix">
+															<xsl:value-of select="./cac:Person/cbc:NameSuffix"/>
+														</xsl:if>
+													</xsl:for-each>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<xsl:call-template name="renderAddress">
+														<xsl:with-param name="dynamicPath" select="//n1:DespatchAdvice/cac:DeliveryCustomerParty"/>
+													</xsl:call-template>
+												</td>
+											</tr>
+											<xsl:call-template name="renderContactInfo">
+												<xsl:with-param name="dynamicPath" select="//n1:DespatchAdvice/cac:DeliveryCustomerParty"/>
+											</xsl:call-template>
+										</tbody>
+									</table>
+									<xsl:if test="//n1:DespatchAdvice/cac:BuyerCustomerParty">
+										<p/>
+										<table class="metro-invoice-line-table">
 											<thead>
 												<tr>
 													<td>
-														<strong>
-															<xsl:value-of select="/n1:Invoice/cac:AdditionalDocumentReference[cbc:DocumentTypeCode = 'AddSection' and cbc:DocumentType = 'Title']/cbc:DocumentDescription"/>
-														</strong>
+														<strong>Alıcı</strong>
 													</td>
 												</tr>
 											</thead>
-											<tr>
-												<td>
-													<xsl:value-of select="/n1:Invoice/cac:AdditionalDocumentReference[cbc:DocumentTypeCode = 'AddSection' and cbc:DocumentType = 'Name']/cbc:DocumentDescription"/>
-												</td>
-											</tr>
-											<tr>
-												<td>
-													<xsl:call-template name="replace-newlines">
-														<xsl:with-param name="text" select="/n1:Invoice/cac:AdditionalDocumentReference[cbc:DocumentTypeCode = 'AddSection' and cbc:DocumentType = 'Address']/cbc:DocumentDescription"/>
-													</xsl:call-template>
-												</td>
-											</tr>
-											<xsl:variable name="hasAddSectionTel" select="count(/n1:Invoice/cac:AdditionalDocumentReference[cbc:DocumentTypeCode = 'AddSection' and cbc:DocumentType = 'Telephone']) > 0"/>
-											<xsl:choose>
-												<xsl:when test="$hasAddSectionTel > 0">
-													<tr>
-														<td>
-															<span class="pair_key">Tel</span>
-															<span class="pair_seperator">:</span>
-															<span class="pair_value">
-																<xsl:value-of select="/n1:Invoice/cac:AdditionalDocumentReference[cbc:DocumentTypeCode = 'AddSection' and cbc:DocumentType = 'Telephone']/cbc:DocumentDescription"/>
-															</span>
-														</td>
-													</tr>
-												</xsl:when>
-											</xsl:choose>
-											<xsl:variable name="hasAddSectionEmail" select="count(/n1:Invoice/cac:AdditionalDocumentReference[cbc:DocumentTypeCode = 'AddSection' and cbc:DocumentType = 'Email']) > 0"/>
-											<xsl:choose>
-												<xsl:when test="$hasAddSectionEmail > 0">
-													<tr>
-														<td>
-															<span class="pair_key">E-Posta</span>
-															<span class="pair_seperator">:</span>
-															<span class="pair_value">
-																<xsl:value-of select="/n1:Invoice/cac:AdditionalDocumentReference[cbc:DocumentTypeCode = 'AddSection' and cbc:DocumentType = 'Email']/cbc:DocumentDescription"/>
-															</span>
-														</td>
-													</tr>
-												</xsl:when>
-											</xsl:choose>
-											<xsl:for-each select="/n1:Invoice/cac:AdditionalDocumentReference[cbc:DocumentTypeCode = 'AddSectionOther']">
+											<tbody>
 												<tr>
 													<td>
-														<span class="pair_key">
-															<xsl:value-of select="cbc:DocumentType"/>
-														</span>
-														<span class="pair_seperator">:</span>
-														<span class="pair_value">
-															<xsl:value-of select="cbc:DocumentDescription"/>
-														</span>
+														<xsl:for-each select="//n1:DespatchAdvice/cac:BuyerCustomerParty/cac:Party">
+															<xsl:if test="./cac:PartyName">
+																<xsl:value-of select="./cac:PartyName/cbc:Name"/>
+																<div style="clear:both"/>
+															</xsl:if>
+															<xsl:if test="./cac:Person/cbc:Title">
+																<xsl:value-of select="./cac:Person/cbc:Title"/>
+															</xsl:if>
+															<xsl:if test="./cac:Person/cbc:FirstName">
+																<xsl:value-of select="./cac:Person/cbc:FirstName"/>
+															</xsl:if>
+															<xsl:if test="./cac:Person/cbc:MiddleName">
+																<xsl:value-of select="./cac:Person/cbc:MiddleName"/>
+															</xsl:if>
+															<xsl:if test="./cac:Person/cbc:FamilyName">
+																<xsl:value-of select="./cac:Person/cbc:FamilyName"/>
+															</xsl:if>
+															<xsl:if test="./cac:Person/cbc:NameSuffix">
+																<xsl:value-of select="./cac:Person/cbc:NameSuffix"/>
+															</xsl:if>
+														</xsl:for-each>
 													</td>
 												</tr>
-											</xsl:for-each>
-										</table>
-									</xsl:when>
-								</xsl:choose>
-							</td>
-							<td width="20%" align="center" style="vertical-align: top;">
-								<div class="GIBLogo"/>
-								<xsl:call-template name="checkProfileID"/>
-								<p>&#160;</p>
-								<div class="Sign"/>
-							</td>
-							<td width="50%" align="center" style="vertical-align: top;">
-								<div style="display: block" id="qrcode"/>
-								<img class="CompanyLogo"/>
-							</td>
-						</tr>
-						<tr>
-							<td width="40%" valign="top" style="vertical-align: top;">
-								<table class="metro-invoice-line-table">
-									<thead>
-										<tr>
-											<td>
-												<strong>Müşteri</strong>
-											</td>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>
-												<xsl:choose>
-													<xsl:when test="not(//n1:Invoice/cbc:ProfileID = 'YOLCUBERABERFATURA' or //n1:Invoice/cbc:ProfileID = 'IHRACAT')">
-														<xsl:for-each select="//n1:Invoice/cac:AccountingCustomerParty/cac:Party">
-															<xsl:if test="./cac:PartyName">
-																<xsl:value-of select="./cac:PartyName/cbc:Name"/>
-																<div style="clear:both"/>
-															</xsl:if>
-															<xsl:if test="./cac:Person/cbc:Title">
-																<xsl:value-of select="./cac:Person/cbc:Title"/>
-															</xsl:if>
-															<xsl:if test="./cac:Person/cbc:FirstName">
-																<xsl:value-of select="./cac:Person/cbc:FirstName"/>
-															</xsl:if>
-															<xsl:if test="./cac:Person/cbc:MiddleName">
-																<xsl:value-of select="./cac:Person/cbc:MiddleName"/>
-															</xsl:if>
-															<xsl:if test="./cac:Person/cbc:FamilyName">
-																<xsl:value-of select="./cac:Person/cbc:FamilyName"/>
-															</xsl:if>
-															<xsl:if test="./cac:Person/cbc:NameSuffix">
-																<xsl:value-of select="./cac:Person/cbc:NameSuffix"/>
-															</xsl:if>
-														</xsl:for-each>
-													</xsl:when>
-													<xsl:otherwise>
-														<xsl:for-each select="//n1:Invoice/cac:BuyerCustomerParty/cac:Party">
-															<xsl:if test="./cac:PartyName">
-																<xsl:value-of select="./cac:PartyName/cbc:Name"/>
-																<div style="clear:both"/>
-															</xsl:if>
-															<xsl:if test="./cac:Person/cbc:Title">
-																<xsl:value-of select="./cac:Person/cbc:Title"/>
-															</xsl:if>
-															<xsl:if test="./cac:Person/cbc:FirstName">
-																<xsl:value-of select="./cac:Person/cbc:FirstName"/>
-															</xsl:if>
-															<xsl:if test="./cac:Person/cbc:MiddleName">
-																<xsl:value-of select="./cac:Person/cbc:MiddleName"/>
-															</xsl:if>
-															<xsl:if test="./cac:Person/cbc:FamilyName">
-																<xsl:value-of select="./cac:Person/cbc:FamilyName"/>
-															</xsl:if>
-															<xsl:if test="./cac:Person/cbc:NameSuffix">
-																<xsl:value-of select="./cac:Person/cbc:NameSuffix"/>
-															</xsl:if>
-														</xsl:for-each>
-													</xsl:otherwise>
-												</xsl:choose>
-											</td>
-										</tr>
-										<xsl:if test="//n1:Invoice/cbc:ProfileID = 'YOLCUBERABERFATURA'">
-											<tr>
-												<td> Pasaport No:<xsl:value-of select="//n1:Invoice/cac:BuyerCustomerParty/cac:Party/cac:Person/cac:IdentityDocumentReference/cbc:ID"/>
-												</td>
-											</tr>
-										</xsl:if>
-										<xsl:if test="//n1:Invoice/cbc:ProfileID = 'YOLCUBERABERFATURA'">
-											<tr>
-												<td> &#220;lkesi <xsl:call-template name="Country">
-														<xsl:with-param name="CountryType">
-															<xsl:value-of select="//n1:Invoice/cac:BuyerCustomerParty/cac:Party/cac:Person/cbc:NationalityID"/>
-														</xsl:with-param>
-													</xsl:call-template>
-												</td>
-											</tr>
-										</xsl:if>
-										<xsl:choose>
-											<xsl:when test="not(//n1:Invoice/cbc:ProfileID = 'YOLCUBERABERFATURA' or //n1:Invoice/cbc:ProfileID = 'IHRACAT')">
 												<tr>
 													<td>
 														<xsl:call-template name="renderAddress">
-															<xsl:with-param name="dynamicPath" select="//n1:Invoice/cac:AccountingCustomerParty"/>
+															<xsl:with-param name="dynamicPath" select="//n1:DespatchAdvice/cac:BuyerCustomerParty"/>
 														</xsl:call-template>
 													</td>
 												</tr>
 												<xsl:call-template name="renderContactInfo">
-													<xsl:with-param name="dynamicPath" select="//n1:Invoice/cac:AccountingCustomerParty"/>
+													<xsl:with-param name="dynamicPath" select="//n1:DespatchAdvice/cac:BuyerCustomerParty"/>
 												</xsl:call-template>
-											</xsl:when>
-											<xsl:otherwise>
+											</tbody>
+										</table>
+									</xsl:if>
+									<xsl:if test="//n1:DespatchAdvice/cac:SellerSupplierParty">
+										<p/>
+										<table class="metro-invoice-line-table">
+											<thead>
+												<tr>
+													<td>
+														<strong>Satıcı</strong>
+													</td>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td>
+														<xsl:for-each select="//n1:DespatchAdvice/cac:SellerSupplierParty/cac:Party">
+															<xsl:if test="./cac:PartyName">
+																<xsl:value-of select="./cac:PartyName/cbc:Name"/>
+																<div style="clear:both"/>
+															</xsl:if>
+															<xsl:if test="./cac:Person/cbc:Title">
+																<xsl:value-of select="./cac:Person/cbc:Title"/>
+															</xsl:if>
+															<xsl:if test="./cac:Person/cbc:FirstName">
+																<xsl:value-of select="./cac:Person/cbc:FirstName"/>
+															</xsl:if>
+															<xsl:if test="./cac:Person/cbc:MiddleName">
+																<xsl:value-of select="./cac:Person/cbc:MiddleName"/>
+															</xsl:if>
+															<xsl:if test="./cac:Person/cbc:FamilyName">
+																<xsl:value-of select="./cac:Person/cbc:FamilyName"/>
+															</xsl:if>
+															<xsl:if test="./cac:Person/cbc:NameSuffix">
+																<xsl:value-of select="./cac:Person/cbc:NameSuffix"/>
+															</xsl:if>
+														</xsl:for-each>
+													</td>
+												</tr>
+												<tr>
+													<td>
+														<xsl:call-template name="renderAddress">
+															<xsl:with-param name="dynamicPath" select="//n1:DespatchAdvice/cac:SellerSupplierParty"/>
+														</xsl:call-template>
+													</td>
+												</tr>
 												<xsl:call-template name="renderContactInfo">
-													<xsl:with-param name="dynamicPath" select="//n1:Invoice/cac:BuyerCustomerParty"/>
+													<xsl:with-param name="dynamicPath" select="//n1:DespatchAdvice/cac:SellerSupplierParty"/>
 												</xsl:call-template>
-											</xsl:otherwise>
-										</xsl:choose>
-									</tbody>
-								</table>
-								<table id="uuid_table" class="metro-invoice-line-table">
-									<thead>
-										<tr>
-											<td>
-												<span class="pair_key">ETTN</span>
-												<span class="pair_seperator">:</span>
-												<span class="pair_value">
-													<xsl:value-of select="n1:Invoice/cbc:UUID"/>
-												</span>
-											</td>
-										</tr>
-									</thead>
-								</table>
-							</td>
-							<td width="20%" align="center"> </td>
-							<td width="50%" style="vertical-align: top;">
-								<table class="metro-invoice-line-table">
-									<thead>
-										<tr>
-											<td>
-												<xsl:call-template name="checkProfileID"/>
-											</td>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>
-												<span class="pair_key">&#214;zelle&#351;tirme
-												No</span>
-												<span class="pair_seperator">:</span>
-												<xsl:value-of select="n1:Invoice/cbc:CustomizationID"/>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<span class="pair_key">Senaryo</span>
-												<span class="pair_seperator">:</span>
-												<xsl:value-of select="n1:Invoice/cbc:ProfileID"/>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<span class="pair_key">Fatura Tipi</span>
-												<span class="pair_seperator">:</span>
-												<xsl:value-of select="n1:Invoice/cbc:InvoiceTypeCode"/>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<span class="pair_key">Fatura No</span>
-												<span class="pair_seperator">:</span>
-												<xsl:value-of select="n1:Invoice/cbc:ID"/>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<span class="pair_key">Fatura Tarihi</span>
-												<span class="pair_seperator">:</span>
-												<xsl:for-each select="//n1:Invoice">
-													<xsl:for-each select="cbc:IssueDate">
-														<xsl:value-of select="substring(., 9, 2)"/>-<xsl:value-of select="substring(., 6, 2)"/>-<xsl:value-of select="substring(., 1, 4)"/>
-													</xsl:for-each>&#160; <xsl:value-of select="cbc:IssueTime"/>
-												</xsl:for-each>
-											</td>
-										</tr>
-										<xsl:for-each select="//n1:Invoice/cac:AdditionalDocumentReference[cbc:ID = 'duzenlemeTarihi']">
+											</tbody>
+										</table>
+									</xsl:if>
+									<p/>
+									<table id="uuid_table" class="metro-invoice-line-table">
+										<thead>
 											<tr>
 												<td>
-													<span style="font-weight:bold;">
-														<xsl:text>Düzenlenme Zamanı</xsl:text>
-													</span>
+													<span class="pair_key">ETTN</span>
 													<span class="pair_seperator">:</span>
-													<xsl:value-of select="cbc:DocumentType"/>
+													<span class="pair_value">
+														<xsl:value-of select="n1:DespatchAdvice/cbc:UUID"/>
+													</span>
 												</td>
 											</tr>
-										</xsl:for-each>
-										<xsl:if test="//n1:Invoice/cac:DespatchDocumentReference/cbc:ID">
-											<tr>
-												<td>
-													<strong class="pair_key">&#304;rsaliye No</strong>
-													<strong class="pair_seperator">:</strong>
-													<xsl:for-each select="//n1:Invoice/cac:DespatchDocumentReference">
-														<xsl:value-of select="cbc:ID"/>,&#160;
-												</xsl:for-each>
-												</td>
-											</tr>
-										</xsl:if>
-										<xsl:if test="//n1:Invoice/cac:DespatchDocumentReference/cbc:IssueDate">
-											<tr>
-												<td>
-													<strong class="pair_key">&#304;rsaliye
-												Tarihi</strong>
-													<strong class="pair_seperator">:</strong>
-													<xsl:for-each select="//n1:Invoice/cac:DespatchDocumentReference">
-														<xsl:variable name="ddt" select="cbc:IssueDate"/>
-														<xsl:value-of select="concat(substring($ddt, 9, 2), '-', substring($ddt, 6, 2), '-', substring($ddt, 1, 4))"/>,&#160; </xsl:for-each>
-												</td>
-											</tr>
-										</xsl:if>
-										<xsl:if test="//n1:Invoice/cac:OrderReference">
-											<tr>
-												<td>
-													<strong class="pair_key">Sipari&#351; No</strong>
-													<strong class="pair_seperator">:</strong>
-													<xsl:value-of select="n1:Invoice/cac:OrderReference/cbc:ID"/>
-												</td>
-											</tr>
-										</xsl:if>
-										<xsl:if test="//n1:Invoice/cac:OrderReference/cbc:IssueDate">
-											<tr>
-												<td>
-													<strong class="pair_key">Sipari&#351;
-												Tarihi</strong>
-													<strong class="pair_seperator">:</strong>
-													<xsl:variable name="spdt" select="n1:Invoice/cac:OrderReference/cbc:IssueDate"/>
-													<xsl:value-of select="concat(substring($spdt, 9, 2), '-', substring($spdt, 6, 2), '-', substring($spdt, 1, 4))"/>
-												</td>
-											</tr>
-										</xsl:if>
-										<xsl:if test="//n1:Invoice/cbc:ProfileID = 'YOLCUBERABERFATURA'">
-											<tr>
-												<td>
-													<strong class="pair_key">Arac&#305; Kurum VKN </strong>
-													<strong class="pair_seperator">:</strong>
-													<xsl:value-of select="n1:Invoice/cac:TaxRepresentativeParty/cac:PartyIdentification/cbc:ID[@schemeID = 'ARACIKURUMVKN']"/>
-												</td>
-											</tr>
-										</xsl:if>
-										<xsl:if test="//n1:Invoice/cbc:ProfileID = 'YOLCUBERABERFATURA'">
-											<tr>
-												<td>
-													<strong class="pair_key">Arac&#305; Kurum Unvan </strong>
-													<strong class="pair_seperator">:</strong>
-													<xsl:for-each select="//n1:Invoice/cac:TaxRepresentativeParty">
-														<xsl:value-of select="cac:PartyName/cbc:Name"/>
-														<div style="clear:both"/>
-													</xsl:for-each>
-												</td>
-											</tr>
-										</xsl:if>
-										<xsl:if test="//n1:Invoice/cbc:InvoiceTypeCode = 'SGK'">
-											<tr>
-												<td>
-													<strong class="pair_key">Sa&#287;l&#305;k Fatura
-												Tipi </strong>
-													<strong class="pair_seperator">:</strong>
-													<xsl:value-of select="//n1:Invoice/cbc:AccountingCost"/>
-												</td>
-											</tr>
-											<tr>
-												<td>
-													<strong class="pair_key">M&#252;kellef Kodu </strong>
-													<strong class="pair_seperator">:</strong>
-													<xsl:for-each select="//n1:Invoice/cac:AdditionalDocumentReference">
-														<xsl:if test="cbc:DocumentTypeCode = 'MUKELLEF_KODU'">
-															<xsl:value-of select="cbc:DocumentType"/>
-														</xsl:if>
-													</xsl:for-each>
-												</td>
-											</tr>
-											<tr>
-												<td>
-													<strong class="pair_key">M&#252;kellef Ad&#305; </strong>
-													<strong class="pair_seperator">:</strong>
-													<xsl:for-each select="//n1:Invoice/cac:AdditionalDocumentReference">
-														<xsl:if test="cbc:DocumentTypeCode = 'MUKELLEF_ADI'">
-															<xsl:value-of select="cbc:DocumentType"/>
-														</xsl:if>
-													</xsl:for-each>
-												</td>
-											</tr>
-											<tr>
-												<td>
-													<strong class="pair_key">Dosya No</strong>
-													<strong class="pair_seperator">:</strong>
-													<xsl:for-each select="//n1:Invoice/cac:AdditionalDocumentReference">
-														<xsl:if test="cbc:DocumentTypeCode = 'DOSYA_NO' or cbc:DocumentTypeCode = 'HARCAMA_REFERANS_NO'">
-															<xsl:value-of select="cbc:DocumentType"/>
-														</xsl:if>
-													</xsl:for-each>
-												</td>
-											</tr>
-											<tr>
-												<td>
-													<strong class="pair_key">D&#246;nem</strong>
-													<strong class="pair_seperator">:</strong>
-													<xsl:value-of select="//n1:Invoice/cac:InvoicePeriod/cbc:StartDate"/>
-													<xsl:text>/</xsl:text>
-													<xsl:value-of select="//n1:Invoice/cac:InvoicePeriod/cbc:EndDate"/>
-												</td>
-											</tr>
-										</xsl:if>
-									</tbody>
-								</table>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-				<p/>
-				<table width="100%" id="invoice_line_table" class="metro-invoice-line-table invoice-table">
-					<thead>
-						<tr>
-							<td style="width:5%"> Sıra No </td>
-							<!--//Sıra No-->
-							<xsl:if test="//n1:Invoice/cbc:ProfileID = 'IHRACAT'">
-								<td style="width:20%">
-									<xsl:text>Malzeme / Hizmet Kodu</xsl:text>
-									<xsl:text>Malzeme / Hizmet A&#231;&#305;klamas&#305;</xsl:text>
+										</thead>
+									</table>
 								</td>
+								<td width="20%" align="center"> </td>
+								<td width="50%" style="vertical-align: top;">
+									<table class="metro-invoice-line-table">
+										<thead>
+											<tr>
+												<td>
+													<xsl:call-template name="checkProfileID"/>
+												</td>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>
+													<span class="pair_key">Özelleştirme No</span>
+													<span class="pair_seperator">:</span>
+													<xsl:value-of select="n1:DespatchAdvice/cbc:CustomizationID"/>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<span class="pair_key">Senaryo</span>
+													<span class="pair_seperator">:</span>
+													<xsl:value-of select="n1:DespatchAdvice/cbc:ProfileID"/>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<span class="pair_key">İrsaliye Tipi</span>
+													<span class="pair_seperator">:</span>
+													<xsl:value-of select="n1:DespatchAdvice/cbc:DespatchAdviceTypeCode"/>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<span class="pair_key">İrsaliye No</span>
+													<span class="pair_seperator">:</span>
+													<xsl:value-of select="n1:DespatchAdvice/cbc:ID"/>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<span class="pair_key">İrsaliye Tarihi</span>
+													<span class="pair_seperator">:</span>
+													<xsl:value-of select="n1:DespatchAdvice/cbc:IssueDate"/>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<span class="pair_key">İrsaliye Zamanı</span>
+													<span class="pair_seperator">:</span>
+													<xsl:value-of select="n1:DespatchAdvice/cbc:IssueTime"/>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<span class="pair_key">Sevk Tarihi</span>
+													<span class="pair_seperator">:</span>
+													<xsl:value-of select="n1:DespatchAdvice/cac:Shipment/cac:Delivery/cac:Despatch/cbc:ActualDespatchDate"/>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<span class="pair_key">Sevk Zamanı</span>
+													<span class="pair_seperator">:</span>
+													<xsl:value-of select="n1:DespatchAdvice/cac:Shipment/cac:Delivery/cac:Despatch/cbc:ActualDespatchTime"/>
+												</td>
+											</tr>
+											<xsl:if test="n1:DespatchAdvice/cac:OrderReference">
+												<tr>
+													<td>
+														<span class="pair_key">Sipariş No</span>
+														<span class="pair_seperator">:</span>
+														<xsl:value-of select="n1:DespatchAdvice/cac:OrderReference/cbc:ID"/>
+													</td>
+												</tr>
+											</xsl:if>
+											<xsl:if test="n1:DespatchAdvice/cac:OrderReference/cbc:IssueDate">
+												<tr>
+													<td>
+														<span class="pair_key">Sipariş Tarihi</span>
+														<span class="pair_seperator">:</span>
+														<xsl:value-of select="n1:DespatchAdvice/cac:OrderReference/cbc:IssueDate"/>
+													</td>
+												</tr>
+											</xsl:if>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<div id="lineTableAligner">
+						<span>
+							<xsl:text>&#160;</xsl:text>
+						</span>
+					</div>
+					<xsl:variable name="PriceAmount">
+						<xsl:for-each select="//n1:DespatchAdvice/cac:DespatchLine/cac:Shipment/cac:GoodsItem/cac:InvoiceLine/cac:Price/cbc:PriceAmount">
+							<xsl:if test=". != 0">
+								<xsl:value-of select="."/>
 							</xsl:if>
-							<!--//Malzeme hizmet kodu açıklaması ihracat-->
-							<xsl:if test="//n1:Invoice/cbc:ProfileID != 'IHRACAT'">
-								<td>
-									<xsl:text>Malzeme / Hizmet Kodu</xsl:text>
-								</td>
+						</xsl:for-each>
+					</xsl:variable>
+					<xsl:variable name="OutstandingReason">
+						<xsl:for-each select="//n1:DespatchAdvice/cac:DespatchLine/cbc:OutstandingReason">
+							<xsl:value-of select="."/>
+						</xsl:for-each>
+					</xsl:variable>
+					<xsl:variable name="OutstandingQuantity">
+						<xsl:for-each select="//n1:DespatchAdvice/cac:DespatchLine/cbc:OutstandingQuantity">
+							<xsl:value-of select="."/>
+						</xsl:for-each>
+					</xsl:variable>
+					<xsl:variable name="LineExtensionAmount">
+						<xsl:for-each select="//n1:DespatchAdvice/cac:DespatchLine/cac:Shipment/cac:GoodsItem/cac:InvoiceLine/cbc:LineExtensionAmount">
+							<xsl:if test=". != 0">
+								<xsl:value-of select="."/>
 							</xsl:if>
-							<!--//Malzeme hizmet kodu  normal-->
-							<xsl:if test="//n1:Invoice/cbc:ProfileID != 'IHRACAT'">
-								<td style="width:20%">
-									<xsl:text>Malzeme / Hizmet Açıklaması</xsl:text>
-								</td>
-							</xsl:if>
-							<!--// malzeme hizmet açıklama normal-->
-							<td style="width:8%">
-								<xsl:text>Miktar</xsl:text>
-							</td>
-							<!--// miktar-->
-							<td style="width:10%">
-								<xsl:text>Birim Fiyat</xsl:text>
-							</td>
-							<!--// birim fiyat-->
-							<td style="width:6%">
-								<xsl:text>İskonto Oranı</xsl:text>
-							</td>
-							<!--// iskonto oranı-->
-							<td style="width:8%">
-								<xsl:text>İskonto Tutarı</xsl:text>
-							</td>
-							<!--// iskonto tutarı-->
-							<td style="width:8%">
-								<xsl:text>KDV Oranı</xsl:text>
-							</td>
-							<!--// kdv oran-->
-							<td style="width:8%">
-								<xsl:text>KDV Tutarı</xsl:text>
-							</td>
-							<!--kdv tutar-->
-							<td style="width:16%">
-								<xsl:text>Malzeme / Hizmet Tutarı</xsl:text>
-							</td>
-							<xsl:if test="//n1:Invoice/cbc:ProfileID = 'IHRACAT'">
-								<!--// malzeme hizmet tutar-->
-								<td style="width:8%">
-									<xsl:text>Teslim Şartı</xsl:text>
-								</td>
-								<!--// teslim şart ihracat-->
-								<td style="width:8%">
-									<xsl:text>Eşya Kap Cinsi</xsl:text>
-								</td>
-								<!--// kap cinsi ihracat-->
-								<td style="width:8%">
-									<xsl:text>Kap No</xsl:text>
-								</td>
-								<!--// kap no ihracat-->
-								<td style="width:8%">
-									<xsl:text>Kap Adet</xsl:text>
-								</td>
-								<!--// kap adet ihracat-->
-								<td style="width:8%">
-									<xsl:text>Teslim / Bedel Ödeme Yeri</xsl:text>
-								</td>
-								<!--// teslim bedeli ödeme yeri ihracat-->
-								<td style="width:8%">
-									<xsl:text>Gönderim Şekli</xsl:text>
-								</td>
-								<!--// gönderim şekli ihracat-->
-								<td style="width:8%">
-									<xsl:text>GTİP</xsl:text>
-								</td>
-								<!--// gtip ihracat-->
-							</xsl:if>
-						</tr>
-					</thead>
-					<tbody>
-						<xsl:for-each select="//n1:Invoice/cac:InvoiceLine">
+						</xsl:for-each>
+					</xsl:variable>
+					<xsl:variable name="ItemSellersItemIdentification">
+						<xsl:for-each select="//n1:DespatchAdvice/cac:DespatchLine/cac:Item/cac:SellersItemIdentification/cbc:ID">
+							<xsl:value-of select="."/>
+						</xsl:for-each>
+					</xsl:variable>
+					<xsl:variable name="ItemBuyersItemIdentification">
+						<xsl:for-each select="//n1:DespatchAdvice/cac:DespatchLine/cac:Item/cac:BuyersItemIdentification/cbc:ID">
+							<xsl:value-of select="."/>
+						</xsl:for-each>
+					</xsl:variable>
+					<xsl:variable name="ManufacturersItemIdentification">
+						<xsl:for-each select="//n1:DespatchAdvice/cac:DespatchLine/cac:Item/cac:ManufacturersItemIdentification/cbc:ID">
+							<xsl:value-of select="."/>
+						</xsl:for-each>
+					</xsl:variable>
+					<xsl:variable name="ItemDescription">
+						<xsl:for-each select="//n1:DespatchAdvice/cac:DespatchLine/cac:Item/cbc:Description">
+							<xsl:value-of select="."/>
+						</xsl:for-each>
+					</xsl:variable>
+					<table width="100%" id="invoice_line_table" class="metro-invoice-line-table invoice-table">
+						<thead>
 							<tr>
-								<!--/* Sıra No */-->
-								<td data-id="Invoice/InvoiceLine/ID; Sıra No">
-									<xsl:value-of select="./cbc:ID"/>
-								</td>
-								<xsl:if test="//n1:Invoice/cbc:ProfileID = 'IHRACAT'">
-									<td data-id="Item/SellersItemIdentification/ID">
-										<xsl:choose>
-											<xsl:when test="./cac:Item/cac:SellersItemIdentification/cbc:ID != ''">
-												<xsl:value-of select="./cac:Item/cac:SellersItemIdentification/cbc:ID"/>
-											</xsl:when>
-											<xsl:otherwise>
-												<xsl:value-of select="./cac:Item/cbc:Name"/>
-											</xsl:otherwise>
-										</xsl:choose>
-										<div style="clear:both"/>
-										<div style="clear:both"/>
-										<xsl:value-of select="./cac:Item/cbc:Description"/>
-									</td>
+								<td style="width:2%">Sıra No</td>
+								<td style="width:25%">Ürün Tanımı</td>
+								<xsl:if test="$ItemSellersItemIdentification != ''">
+									<td style="width:5%">Satıcı Ürün Kodu</td>
 								</xsl:if>
-								<!-- Malzeme / Hizmet Kodu -->
-								<xsl:if test="//n1:Invoice/cbc:ProfileID != 'IHRACAT'">
-									<td data-id="SellersItemIdentification/ID; Malzeme / Hizmet Kodu">
-										<xsl:choose>
-											<xsl:when test="./cac:Item/cac:SellersItemIdentification/cbc:ID != ''">
-												<xsl:value-of select="./cac:Item/cac:SellersItemIdentification/cbc:ID"/>
-											</xsl:when>
-											<xsl:otherwise>
-												<xsl:value-of select="./cac:Item/cbc:Name"/>
-											</xsl:otherwise>
-										</xsl:choose>
-									</td>
+								<xsl:if test="$ItemBuyersItemIdentification != ''">
+									<td style="width:5%">Alıcı Ürün Kodu</td>
 								</xsl:if>
-								<!--/* Malzeme / Hizmet Açıklaması */-->
-								<xsl:if test="//n1:Invoice/cbc:ProfileID != 'IHRACAT'">
-									<td data-id="Item/Description; Malzeme / Hizmet Açıklaması">
-										<xsl:value-of select="./cac:Item/cbc:Description"/>
-									</td>
+								<xsl:if test="$ManufacturersItemIdentification != ''">
+									<td style="width:5%">Üretici Ürün Kodu</td>
 								</xsl:if>
-								<!--/* Miktar */-->
-								<td data-id="InvoicedQuantity; Miktar">
-									<xsl:value-of select="format-number(./cbc:InvoicedQuantity, '###.###,##', 'european')"/>
-									<xsl:if test="./cbc:InvoicedQuantity/@unitCode">
-										<xsl:for-each select="./cbc:InvoicedQuantity"> &#160;
-												<xsl:call-template name="unitCodeTemplate">
-												<xsl:with-param name="code" select="@unitCode"/>
-											</xsl:call-template>
-										</xsl:for-each>
-									</xsl:if>
-								</td>
-								<!--/* Birim Fiyat */-->
-								<td style="text-align: right;" data-id="Price/PriceAmount; Birim Fiyat">
-									<xsl:value-of select="format-number(./cac:Price/cbc:PriceAmount, '###.##0,0000', 'european')"/>
-									<xsl:if test="./cac:Price/cbc:PriceAmount/@currencyID">
-										<xsl:text/>
-										<xsl:if test="./cac:Price/cbc:PriceAmount/@currencyID = 'TRY'">
-											<xsl:text>&#160;TL</xsl:text>
-										</xsl:if>
-										<xsl:if test="./cac:Price/cbc:PriceAmount/@currencyID != 'TRY'">
-												&#160;<xsl:value-of select="./cac:Price/cbc:PriceAmount/@currencyID"/>
-										</xsl:if>
-									</xsl:if>
-								</td>
-								<!--/* İskonto Oranı */-->
-								<td style="text-align: right;" data-id="AllowanceCharge; İskonto Oranı">
-									<xsl:for-each select="./cac:AllowanceCharge">
-										<xsl:text/>
-										<xsl:text>%</xsl:text>
-										<xsl:value-of select="format-number(cbc:MultiplierFactorNumeric * 100, '###.##0,00', 'european')"/>
-									</xsl:for-each>
-								</td>
-								<!--/* İskonto Tutarı */-->
-								<td style="text-align: right;" data-id="AllowanceCharge">
-									<xsl:for-each select="./cac:AllowanceCharge">
-										<xsl:text/>
-										<xsl:value-of select="format-number(cbc:Amount, '###.##0,00', 'european')"/>
-										<xsl:if test="cbc:Amount/@currencyID">
-											<xsl:text/>
-											<xsl:if test="cbc:Amount/@currencyID = 'TRY'">
-												<xsl:text>&#160;TL</xsl:text>
-											</xsl:if>
-											<xsl:if test="cbc:Amount/@currencyID != 'TRY'">
-												&#160;<xsl:value-of select="cbc:Amount/@currencyID"/>
-											</xsl:if>
-										</xsl:if>
-									</xsl:for-each>
-								</td>
-								<!--/* KDV Oranı */-->
-								<td data-id="TaxTotal/TaxSubtotal/TaxCategory/TaxScheme; KDV Oranı">
-									<xsl:for-each select="./cac:TaxTotal/cac:TaxSubtotal/cac:TaxCategory/cac:TaxScheme">
-										<xsl:if test="cbc:TaxTypeCode = '0015'">
-											<xsl:if test="../../cbc:Percent">
-												<xsl:text>%</xsl:text>
-												<xsl:value-of select="format-number(../../cbc:Percent, '###.##0,00', 'european')"/>
-											</xsl:if>
-										</xsl:if>
-									</xsl:for-each>
-								</td>
-								<!--/* KDV Tutarı */-->
-								<td style="text-align: right;" data-id="TaxTotal/TaxSubtotal/TaxCategory/TaxScheme; KDV Tutarı">
-									<xsl:for-each select="./cac:TaxTotal/cac:TaxSubtotal/cac:TaxCategory/cac:TaxScheme">
-										<xsl:if test="cbc:TaxTypeCode = '0015'">
-											<xsl:text/>
-											<xsl:value-of select="format-number(../../cbc:TaxAmount, '###.##0,00', 'european')"/>
-											<xsl:if test="../../cbc:TaxAmount/@currencyID">
-												<xsl:text/>
-												<xsl:if test="../../cbc:TaxAmount/@currencyID = 'TRY'">
-													<xsl:text>&#160;TL</xsl:text>
-												</xsl:if>
-												<xsl:if test="../../cbc:TaxAmount/@currencyID != 'TRY'">
-												&#160;<xsl:value-of select="../../cbc:TaxAmount/@currencyID"/>
-												</xsl:if>
-											</xsl:if>
-										</xsl:if>
-									</xsl:for-each>
-								</td>
-								<!--/* Malzeme / Hizmet Tutarı */-->
-								<td style="text-align: right;" data-id="LineExtensionAmount; Malzeme / Hizmet Tutarı">
-									<xsl:value-of select="format-number(./cbc:LineExtensionAmount, '###.##0,00', 'european')"/>
-									<xsl:if test="./cbc:LineExtensionAmount/@currencyID">
-										<xsl:text/>
-										<xsl:if test="./cbc:LineExtensionAmount/@currencyID = 'TRY'">
-											<xsl:text>&#160;TL</xsl:text>
-										</xsl:if>
-										<xsl:if test="./cbc:LineExtensionAmount/@currencyID != 'TRY'">
-											&#160; <xsl:value-of select="./cbc:LineExtensionAmount/@currencyID"/>
-										</xsl:if>
-									</xsl:if>
-								</td>
-								<xsl:if test="//n1:Invoice/cbc:ProfileID = 'IHRACAT'">
-									<td>
-										<xsl:value-of select="./cac:Delivery/cac:DeliveryTerms/cbc:ID[@schemeID = 'INCOTERMS']"/>
-									</td>
-									<td>
-										<xsl:value-of select="./cac:Delivery/cac:Shipment/cac:TransportHandlingUnit/cac:ActualPackage/cbc:PackagingTypeCode"/>
-									</td>
-									<td>
-										<xsl:value-of select="./cac:Delivery/cac:Shipment/cac:TransportHandlingUnit/cac:ActualPackage/cbc:ID"/>
-									</td>
-									<td>
-										<xsl:value-of select="./cac:Delivery/cac:Shipment/cac:TransportHandlingUnit/cac:ActualPackage/cbc:Quantity"/>
-									</td>
-									<td>
-										<xsl:value-of select="./cac:Delivery/cac:DeliveryAddress"/>
-									</td>
-									<td>
-										<xsl:call-template name="TransportMode">
-											<xsl:with-param name="TransportModeType">
-												<xsl:value-of select="./cac:Delivery/cac:Shipment/cac:ShipmentStage/cbc:TransportModeCode"/>
-											</xsl:with-param>
-										</xsl:call-template>
-									</td>
-									<td>
-										<xsl:value-of select="./cac:Delivery/cac:Shipment/cac:GoodsItem/cbc:RequiredCustomsID"/>
-									</td>
+								<td style="width:10%">Miktar</td>
+								<xsl:if test="$PriceAmount != ''">
+									<td style="width:5%">Birim Fiyat</td>
+								</xsl:if>
+								<xsl:if test="$OutstandingQuantity != ''">
+									<td style="width:5%">Sonra Gönderilecek Miktar</td>
+								</xsl:if>
+								<xsl:if test="$OutstandingReason != ''">
+									<td style="width:5%">Gecikme Sebebi</td>
+								</xsl:if>
+								<xsl:if test="$LineExtensionAmount != ''">
+									<td style="width:5%">Tutar</td>
+								</xsl:if>
+								<xsl:if test="$ItemDescription != ''">
+									<td style="width:5%">Açıklama</td>
 								</xsl:if>
 							</tr>
-						</xsl:for-each>
-						<xsl:call-template name="geneliskonto"/>
-					</tbody>
-				</table>
+						</thead>
+						<tbody>
+							<xsl:for-each select="//n1:DespatchAdvice/cac:DespatchLine">
+								<tr>
+									<td align="center">
+										<xsl:value-of select="./cbc:ID"/>
+									</td>
+									<td>
+										<xsl:value-of select="./cac:Item/cbc:Name"/>
+									</td>
+									<xsl:if test="$ItemSellersItemIdentification != ''">
+										<td>
+											<xsl:value-of select="./cac:Item/cac:SellersItemIdentification/cbc:ID"/>
+										</td>
+									</xsl:if>
+									<xsl:if test="$ItemBuyersItemIdentification != ''">
+										<td>
+											<xsl:value-of select="./cac:Item/cac:BuyersItemIdentification/cbc:ID"/>
+										</td>
+									</xsl:if>
+									<xsl:if test="$ManufacturersItemIdentification != ''">
+										<td>
+											<xsl:value-of select="./cac:Item/cac:ManufacturersItemIdentification/cbc:ID"/>
+										</td>
+									</xsl:if>
+									<td style="width:10%" align="right">
+										<xsl:value-of select="format-number(./cbc:DeliveredQuantity, '#.###.###.###,########', 'european')"/>
+										<xsl:if test="./cbc:DeliveredQuantity/@unitCode">
+											<xsl:for-each select="./cbc:DeliveredQuantity"> &#160;
+													<xsl:call-template name="unitCodeTemplate">
+													<xsl:with-param name="code" select="@unitCode"/>
+												</xsl:call-template>
+											</xsl:for-each>
+										</xsl:if>
+									</td>
+									<xsl:if test="$PriceAmount != ''">
+										<td class="lineTableTd" align="right">
+											<xsl:text>&#160;</xsl:text>
+											<xsl:value-of select="format-number(./cac:Shipment/cac:GoodsItem/cac:InvoiceLine/cac:Price/cbc:PriceAmount, '###.##0,00', 'european')"/>
+											<xsl:if test="./cac:Shipment/cac:GoodsItem/cac:InvoiceLine/cac:Price/cbc:PriceAmount/@currencyID">
+												<xsl:text> </xsl:text>
+												<xsl:if test="./cac:Shipment/cac:GoodsItem/cac:InvoiceLine/cac:Price/cbc:PriceAmount/@currencyID = &quot;TRL&quot; or ./cac:Shipment/cac:GoodsItem/cac:InvoiceLine/cac:Price/cbc:PriceAmount/@currencyID = &quot;TRY&quot;">
+													<xsl:text>TL</xsl:text>
+												</xsl:if>
+												<xsl:if test="./cac:Shipment/cac:GoodsItem/cac:InvoiceLine/cac:Price/cbc:PriceAmount/@currencyID != &quot;TRL&quot; and ./cac:Shipment/cac:GoodsItem/cac:InvoiceLine/cac:Price/cbc:PriceAmount/@currencyID != &quot;TRY&quot;">
+													<xsl:value-of select="./cac:Shipment/cac:GoodsItem/cac:InvoiceLine/cac:Price/cbc:PriceAmount/@currencyID"/>
+												</xsl:if>
+											</xsl:if>
+										</td>
+									</xsl:if>
+									<xsl:if test="$OutstandingQuantity != ''">
+										<td>
+											<xsl:value-of select="format-number(./cbc:OutstandingQuantity, '#.###.###.###,########', 'european')"/>
+											<xsl:if test="./cbc:OutstandingQuantity/@unitCode">
+												<xsl:for-each select="./cbc:OutstandingQuantity"> &#160;
+														<xsl:call-template name="unitCodeTemplate">
+														<xsl:with-param name="code" select="@unitCode"/>
+													</xsl:call-template>
+												</xsl:for-each>
+											</xsl:if>
+										</td>
+									</xsl:if>
+									<xsl:if test="$OutstandingReason != ''">
+										<td>
+											<xsl:value-of select="./cbc:OutstandingReason"/>
+										</td>
+									</xsl:if>
+									<xsl:if test="$LineExtensionAmount != ''">
+										<td align="right">
+											<xsl:value-of select="format-number(./cac:Shipment/cac:GoodsItem/cac:InvoiceLine/cbc:LineExtensionAmount, '###.##0,00', 'european')"/>
+											<xsl:if test="./cac:Shipment/cac:GoodsItem/cac:InvoiceLine/cbc:LineExtensionAmount/@currencyID">
+												<xsl:text> </xsl:text>
+												<xsl:if test="./cac:Shipment/cac:GoodsItem/cac:InvoiceLine/cbc:LineExtensionAmount/@currencyID = &quot;TRL&quot; or ./cac:Shipment/cac:GoodsItem/cac:InvoiceLine/cbc:LineExtensionAmount/@currencyID = &quot;TRY&quot;">
+													<xsl:text>TL</xsl:text>
+												</xsl:if>
+												<xsl:if test="./cac:Shipment/cac:GoodsItem/cac:InvoiceLine/cbc:LineExtensionAmount/@currencyID != &quot;TRL&quot; and ./cac:Shipment/cac:GoodsItem/cac:InvoiceLine/cbc:LineExtensionAmount/@currencyID != &quot;TRY&quot;">
+													<xsl:value-of select="./cac:Shipment/cac:GoodsItem/cac:InvoiceLine/cbc:LineExtensionAmount/@currencyID"/>
+												</xsl:if>
+											</xsl:if>
+										</td>
+									</xsl:if>
+									<xsl:if test="$ItemDescription != ''">
+										<td>
+											<xsl:value-of select="./cac:Item/cbc:Description"/>
+										</td>
+									</xsl:if>
+								</tr>
+							</xsl:for-each>
+						</tbody>
+					</table>
+				</xsl:for-each>
 				<p/>
 				<table width="100%">
 					<tbody>
 						<tr>
 							<td width="40%" style="vertical-align: top;">
-								<xsl:variable name="currencyCode" select="//n1:Invoice/cbc:DocumentCurrencyCode"/>
-								<xsl:variable name="exchangeRate" select="//n1:Invoice/cac:PricingExchangeRate/cbc:CalculationRate"/>
-								<xsl:if test="$currencyCode != 'TRY' and $currencyCode != 'TRL'">
-									<table class="metro-invoice-line-table table-right" width="50%">
+								<table class="metro-invoice-line-table" width="50%">
+									<xsl:for-each select="//cac:ShipmentStage/cac:TransportMeans/cac:RoadTransport/cbc:LicensePlateID">
 										<tr>
 											<td>
-												<xsl:text>Mal ve Hizmet Toplam Tutarı (TL):</xsl:text>
-											</td>
-											<td>
-												<xsl:value-of select="format-number(//n1:Invoice/cac:LegalMonetaryTotal/cbc:LineExtensionAmount * $exchangeRate, '###.##0,00', 'european')"/>
-												<span>
-													<xsl:text> TL</xsl:text>
-												</span>
+												<b>Araç plaka numarası: </b>
+												<xsl:value-of select="."/>
 											</td>
 										</tr>
-										<xsl:if test="//n1:Invoice/cac:LegalMonetaryTotal/cbc:AllowanceTotalAmount != 0">
+									</xsl:for-each>
+									<xsl:for-each select="//cac:TransportHandlingUnit/cac:TransportEquipment/cbc:ID[@schemeID = 'DORSEPLAKA']">
+										<xsl:if test="//cac:TransportHandlingUnit/cac:TransportEquipment/cbc:ID[@schemeID = 'DORSEPLAKA'] != ''">
 											<tr>
 												<td>
-													<xsl:text>Toplam İskonto (TL): </xsl:text>
-												</td>
-												<td>
-													<xsl:value-of select="format-number(//n1:Invoice/cac:LegalMonetaryTotal/cbc:AllowanceTotalAmount * $exchangeRate, '###.##0,00', 'european')"/>
-													<xsl:if test="//n1:Invoice/cac:LegalMonetaryTotal/cbc:AllowanceTotalAmount/@currencyID">
-														<span>
-															<xsl:text> TL</xsl:text>
-														</span>
-													</xsl:if>
+													<b>Dorse plaka numarası: </b>
+													<xsl:value-of select="."/>
 												</td>
 											</tr>
 										</xsl:if>
-										<xsl:if test="//n1:Invoice/cac:LegalMonetaryTotal/cbc:ChargeTotalAmount != 0">
+									</xsl:for-each>
+									<xsl:for-each select="//cac:ShipmentStage/cac:DriverPerson">
+										<xsl:if test="cbc:FirstName">
 											<tr>
 												<td>
-													<xsl:text>Toplam Artırım (TL):</xsl:text>
-												</td>
-												<td>
-													<xsl:value-of select="format-number(//n1:Invoice/cac:LegalMonetaryTotal/cbc:ChargeTotalAmount * $exchangeRate, '###.##0,00', 'european')"/>
-													<span>
-														<xsl:text> TL</xsl:text>
-													</span>
-												</td>
-											</tr>
-										</xsl:if>
-										<xsl:for-each select="//n1:Invoice/cac:TaxTotal/cac:TaxSubtotal[cac:TaxCategory/cac:TaxScheme/cbc:TaxTypeCode = '0015']">
-											<tr>
-												<td>
-													<xsl:text>KDV Matrahı </xsl:text>
-													<xsl:text>(%</xsl:text>
-													<xsl:value-of select="cbc:Percent"/>
-													<xsl:text>) (TL):</xsl:text>
-												</td>
-												<td>
-													<xsl:value-of select="format-number(./cbc:TaxableAmount[../cac:TaxCategory/cac:TaxScheme/cbc:TaxTypeCode = '0015'] * $exchangeRate, '###.##0,00', 'european')"/>
-													<span>
-														<xsl:text> TL</xsl:text>
-													</span>
-												</td>
-											</tr>
-										</xsl:for-each>
-										<tr>
-											<td>
-												<span>
-													<xsl:text>Vergi Hariç Tutar (TL): </xsl:text>
-												</span>
-											</td>
-											<td>
-												<xsl:value-of select="format-number(//n1:Invoice/cac:LegalMonetaryTotal/cbc:TaxExclusiveAmount * $exchangeRate, '###.##0,00', 'european')"/>
-												<xsl:if test="//n1:Invoice/cac:LegalMonetaryTotal/cbc:TaxExclusiveAmount">
-													<span>
-														<xsl:text> TL</xsl:text>
-													</span>
-												</xsl:if>
-											</td>
-										</tr>
-										<xsl:for-each select="n1:Invoice/cac:TaxTotal/cac:TaxSubtotal[not(starts-with(./cac:TaxCategory/cbc:TaxExemptionReasonCode, '8') and (string-length(./cac:TaxCategory/cbc:TaxExemptionReasonCode) = 3))]">
-											<tr>
-												<td class="sumTitle is-long-{string-length(cac:TaxCategory/cac:TaxScheme/cbc:Name) &gt; 15}">
-													<xsl:text>Hesaplanan </xsl:text>
-													<xsl:value-of select="cac:TaxCategory/cac:TaxScheme/cbc:Name"/>
-													<xsl:text> (%</xsl:text>
-													<xsl:value-of select="cbc:Percent"/>
-													<xsl:text>) </xsl:text>
-													<xsl:if test="cac:TaxCategory/cbc:TaxExemptionReasonCode &gt; 0"> (<xsl:value-of select="cac:TaxCategory/cbc:TaxExemptionReasonCode"/>) </xsl:if>
-													<xsl:text>: </xsl:text>
-												</td>
-												<td>
-													<xsl:for-each select="cac:TaxCategory/cac:TaxScheme">
-														<xsl:text/>
-														<xsl:value-of select="format-number(../../cbc:TaxAmount * $exchangeRate, '###.##0,00', 'european')"/>
-														<span>
-															<xsl:text> TL</xsl:text>
-														</span>
+													<b>Şoför: </b>
+													<xsl:for-each select="cbc:Title">
+														<xsl:apply-templates/>
+														<xsl:text>&#160;</xsl:text>
+													</xsl:for-each>
+													<xsl:for-each select="cbc:FirstName">
+														<xsl:apply-templates/>
+														<xsl:text>&#160;</xsl:text>
+													</xsl:for-each>
+													<xsl:for-each select="cbc:MiddleName">
+														<xsl:apply-templates/>
+														<xsl:text>&#160;</xsl:text>
+													</xsl:for-each>
+													<xsl:for-each select="cbc:FamilyName">
+														<xsl:apply-templates/>
+														<xsl:text>&#160;</xsl:text>
 													</xsl:for-each>
 												</td>
 											</tr>
+											<tr>
+												<td>
+													<b>TCKN / PASAPORT NO: </b>
+													<xsl:for-each select="cbc:NationalityID">
+														<xsl:apply-templates/>
+													</xsl:for-each>
+												</td>
+											</tr>
+										</xsl:if>
+									</xsl:for-each>
+								</table>
+								<xsl:if test="//cac:CarrierParty/cac:PartyIdentification != ''">
+									<p/>
+									<table class="metro-invoice-line-table" width="50%">
+										<xsl:for-each select="//cac:CarrierParty">
+											<xsl:if test="cac:PartyIdentification/cbc:ID[@schemeID = 'VKN']">
+												<tr>
+													<td>
+														<b>Taşıyıcı Firma VKN: </b>
+														<xsl:value-of select="./cac:PartyIdentification/cbc:ID"/>
+													</td>
+												</tr>
+												<tr>
+													<td>
+														<b>Unvan: </b>
+														<xsl:if test="cac:PartyName">
+															<xsl:value-of select="cac:PartyName/cbc:Name"/>
+														</xsl:if>
+													</td>
+												</tr>
+											</xsl:if>
+											<xsl:if test="cac:PartyIdentification/cbc:ID[@schemeID = 'TCKN']">
+												<tr>
+													<td>
+														<b>Taşıyıcı Firma TCKN: </b>
+														<xsl:value-of select="./cac:PartyIdentification/cbc:ID"/>
+													</td>
+												</tr>
+												<tr>
+													<td>
+														<b>Ad Soyad: </b>
+														<xsl:for-each select="cac:Person">
+															<xsl:for-each select="cbc:Title">
+																<xsl:apply-templates/>
+																<span>
+																	<xsl:text>&#160;</xsl:text>
+																</span>
+															</xsl:for-each>
+															<xsl:for-each select="cbc:FirstName">
+																<xsl:apply-templates/>
+																<span>
+																	<xsl:text>&#160;</xsl:text>
+																</span>
+															</xsl:for-each>
+															<xsl:for-each select="cbc:MiddleName">
+																<xsl:apply-templates/>
+																<span>
+																	<xsl:text>&#160;</xsl:text>
+																</span>
+															</xsl:for-each>
+															<xsl:for-each select="cbc:FamilyName">
+																<xsl:apply-templates/>
+																<span>
+																	<xsl:text>&#160;</xsl:text>
+																</span>
+															</xsl:for-each>
+															<xsl:for-each select="cbc:NameSuffix">
+																<xsl:apply-templates/>
+															</xsl:for-each>
+														</xsl:for-each>
+													</td>
+												</tr>
+											</xsl:if>
 										</xsl:for-each>
-										<xsl:if test="n1:Invoice/cac:WithholdingTaxTotal/cac:TaxSubtotal[starts-with(./cac:TaxCategory/cac:TaxScheme/cbc:TaxTypeCode, '6')]">
-											<tr>
-												<td>
-													<xsl:text>Tevkifata Tabi İşlem Tutarı (KDV) (TL): </xsl:text>
-												</td>
-												<td>
-													<xsl:value-of select="format-number(sum(n1:Invoice/cac:InvoiceLine/cac:TaxTotal/cac:TaxSubtotal/cbc:TaxableAmount[../../../cac:WithholdingTaxTotal/cac:TaxSubtotal[starts-with(./cac:TaxCategory/cac:TaxScheme/cbc:TaxTypeCode, '6')] and ../cac:TaxCategory/cac:TaxScheme/cbc:TaxTypeCode = 0015]) * $exchangeRate, '###.##0,00', 'european')"/>
-													<span>
-														<xsl:text> TL</xsl:text>
-													</span>
-												</td>
-											</tr>
-											<tr>
-												<td>
-													<xsl:text>Tevkifata Tabi İşlem Üzerinden Hes. KDV (TL): </xsl:text>
-												</td>
-												<td>
-													<xsl:value-of select="format-number(sum(n1:Invoice/cac:WithholdingTaxTotal/cac:TaxSubtotal/cbc:TaxableAmount[starts-with(../cac:TaxCategory/cac:TaxScheme/cbc:TaxTypeCode, '6')]) * $exchangeRate, '###.##0,00', 'european')"/>
-													<span>
-														<xsl:text> TL</xsl:text>
-													</span>
-												</td>
-											</tr>
-											<xsl:for-each select="n1:Invoice/cac:WithholdingTaxTotal/cac:TaxSubtotal[starts-with(./cac:TaxCategory/cac:TaxScheme/cbc:TaxTypeCode, '6')]">
+									</table>
+								</xsl:if>
+								<xsl:if test="//cac:OriginatorCustomerParty/cac:PartyIdentification != ''">
+									<p/>
+									<table class="metro-invoice-line-table" width="50%">
+										<xsl:for-each select="//cac:OriginatorCustomerParty">
+											<xsl:if test="cac:PartyIdentification/cbc:ID[@schemeID = 'VKN']">
 												<tr>
 													<td>
-														<xsl:text>KDV Tevkifat Tutarı (</xsl:text>
-														<xsl:value-of select="./cac:TaxCategory/cac:TaxScheme/cbc:TaxTypeCode"/>) (TL): </td>
-													<td>
-														<xsl:value-of select="format-number(cbc:TaxAmount * $exchangeRate, '###.##0,00', 'european')"/>
-														<span>
-															<xsl:text> TL</xsl:text>
-														</span>
+														<b>İşlemleri Başlatan VKN: </b>
+														<xsl:value-of select="./cac:PartyIdentification/cbc:ID"/>
 													</td>
 												</tr>
-											</xsl:for-each>
-										</xsl:if>
-										<xsl:if test="n1:Invoice/cac:WithholdingTaxTotal/cac:TaxSubtotal[starts-with(./cac:TaxCategory/cac:TaxScheme/cbc:TaxTypeCode, '4')]">
-											<tr>
-												<td>
-													<xsl:text>Tevkifata Tabi İşlem Tutarı (ÖTV) (TL)</xsl:text>
-												</td>
-												<td>
-													<xsl:value-of select="format-number(sum(n1:Invoice/cac:InvoiceLine/cac:TaxTotal/cac:TaxSubtotal/cbc:TaxableAmount[../../../cac:WithholdingTaxTotal/cac:TaxSubtotal[starts-with(./cac:TaxCategory/cac:TaxScheme/cbc:TaxTypeCode, '4') and ../cac:TaxCategory/cac:TaxScheme/cbc:TaxTypeCode = 0071]]) * $exchangeRate, '###.##0,00', 'european')"/>
-													<span>
-														<xsl:text> TL</xsl:text>
-													</span>
-												</td>
-											</tr>
-											<tr>
-												<td>
-													<xsl:text>Tevkifata Tabi İşlem Üzerinden Hes. ÖTV (TL)</xsl:text>
-												</td>
-												<td>
-													<xsl:value-of select="format-number(sum(n1:Invoice/cac:WithholdingTaxTotal/cac:TaxSubtotal/cbc:TaxableAmount[starts-with(../cac:TaxCategory/cac:TaxScheme/cbc:TaxTypeCode, '4')]) * $exchangeRate, '###.##0,00', 'european')"/>
-													<span>
-														<xsl:text> TL</xsl:text>
-													</span>
-												</td>
-											</tr>
-											<xsl:for-each select="n1:Invoice/cac:WithholdingTaxTotal/cac:TaxSubtotal[starts-with(./cac:TaxCategory/cac:TaxScheme/cbc:TaxTypeCode, '4')]">
 												<tr>
 													<td>
-														<xsl:text>ÖTV Tevkifat Tutarı (</xsl:text>
-														<xsl:value-of select="./cac:TaxCategory/cac:TaxScheme/cbc:TaxTypeCode"/>) (TL): </td>
-													<td>
-														<xsl:value-of select="../cbc:TaxAmount * $exchangeRate"/>
-														<span>
-															<xsl:text> TL</xsl:text>
-														</span>
+														<b>Unvan: </b>
+														<xsl:if test="cac:PartyName">
+															<xsl:value-of select="cac:PartyName/cbc:Name"/>
+														</xsl:if>
 													</td>
 												</tr>
-											</xsl:for-each>
-										</xsl:if>
-										<tr>
-											<td>
-												<xsl:text>Vergiler Dahil Toplam Tutar (TL):</xsl:text>
-											</td>
-											<td>
-												<xsl:value-of select="format-number(//n1:Invoice/cac:LegalMonetaryTotal/cbc:TaxInclusiveAmount * $exchangeRate, '###.##0,00', 'european')"/>
-												<span>
-													<xsl:text> TL</xsl:text>
-												</span>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<xsl:text>Ödenecek Tutar (TL):</xsl:text>
-											</td>
-											<td>
-												<xsl:value-of select="format-number(//n1:Invoice/cac:LegalMonetaryTotal/cbc:PayableAmount * $exchangeRate, '###.##0,00', 'european')"/>
-												<span>
-													<xsl:text> TL</xsl:text>
-												</span>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<xsl:text>Döviz Kuru:</xsl:text>
-											</td>
-											<td>
-												<xsl:value-of select="format-number($exchangeRate, '###.##0,######', 'european')"/>
-												<span>
-													<xsl:text> TL</xsl:text>
-												</span>
-											</td>
-										</tr>
+											</xsl:if>
+											<xsl:if test="cac:PartyIdentification/cbc:ID[@schemeID = 'TCKN']">
+												<tr>
+													<td>
+														<b>İşlemleri Başlatan TCKN: </b>
+														<xsl:value-of select="./cac:PartyIdentification/cbc:ID"/>
+													</td>
+												</tr>
+												<tr>
+													<td>
+														<b>Ad Soyad: </b>
+														<xsl:for-each select="cac:Person">
+															<xsl:for-each select="cbc:Title">
+																<xsl:apply-templates/>
+																<span>
+																	<xsl:text>&#160;</xsl:text>
+																</span>
+															</xsl:for-each>
+															<xsl:for-each select="cbc:FirstName">
+																<xsl:apply-templates/>
+																<span>
+																	<xsl:text>&#160;</xsl:text>
+																</span>
+															</xsl:for-each>
+															<xsl:for-each select="cbc:MiddleName">
+																<xsl:apply-templates/>
+																<span>
+																	<xsl:text>&#160;</xsl:text>
+																</span>
+															</xsl:for-each>
+															<xsl:for-each select="cbc:FamilyName">
+																<xsl:apply-templates/>
+																<span>
+																	<xsl:text>&#160;</xsl:text>
+																</span>
+															</xsl:for-each>
+															<xsl:for-each select="cbc:NameSuffix">
+																<xsl:apply-templates/>
+															</xsl:for-each>
+														</xsl:for-each>
+													</td>
+												</tr>
+											</xsl:if>
+										</xsl:for-each>
 									</table>
 								</xsl:if>
 							</td>
-							<td width="10%"/>
-							<td width="40%" style="vertical-align: top;">
+							<td width="30%"/>
+							<td width="20%" style="vertical-align: top;">
 								<table class="metro-invoice-line-table table-right" width="50%">
-									<xsl:variable name="invoice" select="//n1:Invoice"/>
-									<xsl:variable name="documentCurrencyCode" select="$invoice/cbc:DocumentCurrencyCode"/>
-									<xsl:variable name="lineExtensionAmount" select="$invoice/cac:LegalMonetaryTotal/cbc:LineExtensionAmount"/>
-									<xsl:variable name="allowanceTotalAmount" select="$invoice/cac:LegalMonetaryTotal/cbc:AllowanceTotalAmount"/>
-									<xsl:variable name="chargeTotalAmount" select="$invoice/cac:LegalMonetaryTotal/cbc:ChargeTotalAmount"/>
-									<xsl:variable name="taxExclusiveAmount" select="$invoice/cac:LegalMonetaryTotal/cbc:TaxExclusiveAmount"/>
-									<xsl:variable name="taxInclusiveAmount" select="$invoice/cac:LegalMonetaryTotal/cbc:TaxInclusiveAmount"/>
-									<xsl:variable name="payableAmount" select="$invoice/cac:LegalMonetaryTotal/cbc:PayableAmount"/>
+									<xsl:variable name="LineExtensionAmount">
+										<xsl:value-of select="sum(//n1:DespatchAdvice/cac:DespatchLine/cac:Shipment/cac:GoodsItem/cac:InvoiceLine/cbc:LineExtensionAmount)">
+										</xsl:value-of>
+									</xsl:variable>
+									<xsl:variable name="documentCurrencyCode" select="//n1:DespatchAdvice/cac:DespatchLine/cac:Shipment/cac:GoodsItem/cac:InvoiceLine/cbc:LineExtensionAmount[1]/@currencyID != 'TRL' and //n1:DespatchAdvice/cac:DespatchLine/cac:Shipment/cac:GoodsItem/cac:InvoiceLine/cac:Price/cbc:PriceAmount/@currencyID"/>
 									<tr>
-										<td>Mal Hizmet Toplam Tutarı:</td>
+										<td>Toplam Adet:</td>
 										<td>
-											<xsl:value-of select="format-number($lineExtensionAmount, '###.##0,00', 'european')"/>
-											<xsl:if test="$lineExtensionAmount/@currencyID">
+											<xsl:value-of select="format-number(sum(//n1:DespatchAdvice/cac:DespatchLine/cbc:DeliveredQuantity), '###.##0,########', 'european')"/>
+										</td>
+									</tr>
+									<xsl:if test="$LineExtensionAmount != 0">
+										<tr>
+											<td>Toplam Tutar:</td>
+											<td>
+												<xsl:value-of select="format-number($LineExtensionAmount, '###.##0,00', 'european')"/>
 												<span>&#160; <xsl:choose>
 														<xsl:when test="$documentCurrencyCode = 'TRY' or $documentCurrencyCode = 'TRL'">TL</xsl:when>
 														<xsl:otherwise>
-															<xsl:value-of select="$lineExtensionAmount/@currencyID"/>
-														</xsl:otherwise>
-													</xsl:choose>
-												</span>
-											</xsl:if>
-										</td>
-									</tr>
-									<xsl:if test="$allowanceTotalAmount != 0">
-										<tr>
-											<td>Toplam İskonto:</td>
-											<td>
-												<xsl:value-of select="format-number($allowanceTotalAmount, '###.##0,00', 'european')"/>
-												<xsl:if test="$allowanceTotalAmount/@currencyID">
-													<span>&#160; <xsl:choose>
-															<xsl:when test="$documentCurrencyCode = 'TRY' or $documentCurrencyCode = 'TRL'">TL</xsl:when>
-															<xsl:otherwise>
-																<xsl:value-of select="$allowanceTotalAmount/@currencyID"/>
-															</xsl:otherwise>
-														</xsl:choose>
-													</span>
-												</xsl:if>
-											</td>
-										</tr>
-									</xsl:if>
-									<xsl:if test="$chargeTotalAmount != 0">
-										<tr>
-											<td>Toplam Artırım:</td>
-											<td>
-												<xsl:value-of select="format-number($chargeTotalAmount, '###.##0,00', 'european')"/>
-												<xsl:if test="$chargeTotalAmount/@currencyID">
-													<span>&#160; <xsl:choose>
-															<xsl:when test="$documentCurrencyCode = 'TRY' or $documentCurrencyCode = 'TRL'">TL</xsl:when>
-															<xsl:otherwise>
-																<xsl:value-of select="$chargeTotalAmount/@currencyID"/>
-															</xsl:otherwise>
-														</xsl:choose>
-													</span>
-												</xsl:if>
-											</td>
-										</tr>
-									</xsl:if>
-									<xsl:for-each select="$invoice/cac:TaxTotal/cac:TaxSubtotal[cac:TaxCategory/cac:TaxScheme/cbc:TaxTypeCode = '0015']">
-										<tr>
-											<td>
-												<xsl:text>KDV Matrahı (%</xsl:text>
-												<xsl:value-of select="cbc:Percent"/>
-												<xsl:text>):</xsl:text>
-											</td>
-											<td>
-												<xsl:value-of select="format-number(./cbc:TaxableAmount[../cac:TaxCategory/cac:TaxScheme/cbc:TaxTypeCode = '0015'], '###.##0,00', 'european')"/>
-												<xsl:if test="./cbc:TaxableAmount/@currencyID">
-													<span>&#160; <xsl:choose>
-															<xsl:when test="$documentCurrencyCode = 'TRY' or $documentCurrencyCode = 'TRL'">TL</xsl:when>
-															<xsl:otherwise>
-																<xsl:value-of select="./cbc:TaxableAmount/@currencyID"/>
-															</xsl:otherwise>
-														</xsl:choose>
-													</span>
-												</xsl:if>
-											</td>
-										</tr>
-									</xsl:for-each>
-									<tr>
-										<td>
-											<span>
-												<xsl:text>Vergi Hariç Tutar: </xsl:text>
-											</span>
-										</td>
-										<td>
-											<xsl:value-of select="format-number($taxExclusiveAmount, '###.##0,00', 'european')"/>
-											<xsl:if test="$taxExclusiveAmount">
-												<span>&#160; <xsl:choose>
-														<xsl:when test="$documentCurrencyCode = 'TRY' or $documentCurrencyCode = 'TRL'">TL</xsl:when>
-														<xsl:otherwise>
-															<xsl:value-of select="$taxExclusiveAmount/@currencyID"/>
-														</xsl:otherwise>
-													</xsl:choose>
-												</span>
-											</xsl:if>
-										</td>
-									</tr>
-									<xsl:for-each select="$invoice/cac:TaxTotal/cac:TaxSubtotal[not(starts-with(./cac:TaxCategory/cbc:TaxExemptionReasonCode, '8') and (string-length(./cac:TaxCategory/cbc:TaxExemptionReasonCode) = 3))]">
-										<tr>
-											<td>
-												<xsl:text>Hesaplanan </xsl:text>
-												<xsl:value-of select="cac:TaxCategory/cac:TaxScheme/cbc:Name"/>
-												<xsl:text> (%</xsl:text>
-												<xsl:value-of select="cbc:Percent"/>
-												<xsl:text>) </xsl:text>
-												<xsl:if test="cac:TaxCategory/cbc:TaxExemptionReasonCode &gt; 0"> (<xsl:value-of select="cac:TaxCategory/cbc:TaxExemptionReasonCode"/>) </xsl:if>
-												<xsl:text>: </xsl:text>
-											</td>
-											<td>
-												<xsl:for-each select="cac:TaxCategory/cac:TaxScheme">
-													<xsl:text/>
-													<xsl:value-of select="format-number(../../cbc:TaxAmount, '###.##0,00', 'european')"/>
-													<span>&#160; <xsl:if test="../../cbc:TaxAmount/@currencyID">
-															<xsl:text/>
-															<xsl:if test="$documentCurrencyCode = 'TRY' or $documentCurrencyCode = 'TRL'">TL</xsl:if>
-															<xsl:if test="$documentCurrencyCode != 'TRY' and $documentCurrencyCode != 'TRL'">
-																<xsl:value-of select="../../cbc:TaxAmount/@currencyID"/>
-															</xsl:if>
-														</xsl:if>
-													</span>
-												</xsl:for-each>
-											</td>
-										</tr>
-									</xsl:for-each>
-									<xsl:if test="$invoice/cac:WithholdingTaxTotal/cac:TaxSubtotal[starts-with(./cac:TaxCategory/cac:TaxScheme/cbc:TaxTypeCode, '6')]">
-										<tr>
-											<td>
-												<xsl:text>Tevkifata Tabi İşlem Tutarı (KDV): </xsl:text>
-											</td>
-											<td>
-												<xsl:value-of select="format-number(sum($invoice/cac:InvoiceLine/cac:TaxTotal/cac:TaxSubtotal/cbc:TaxableAmount[../../../cac:WithholdingTaxTotal/cac:TaxSubtotal[starts-with(./cac:TaxCategory/cac:TaxScheme/cbc:TaxTypeCode, '6')] and ../cac:TaxCategory/cac:TaxScheme/cbc:TaxTypeCode = '0015']), '###.##0,00', 'european')"/>
-												<span>&#160; <xsl:if test="$documentCurrencyCode = 'TRY' or $documentCurrencyCode = 'TRL'"> TL</xsl:if>
-													<xsl:if test="$documentCurrencyCode != 'TRY' and $documentCurrencyCode != 'TRL'">
-														<xsl:text/>
-														<xsl:value-of select="$documentCurrencyCode"/>
-													</xsl:if>
-												</span>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<xsl:text>Tevkifata Tabi İşlem Üzerinden Hes. KDV: </xsl:text>
-											</td>
-											<td>
-												<xsl:value-of select="format-number(sum($invoice/cac:WithholdingTaxTotal/cac:TaxSubtotal/cbc:TaxableAmount[starts-with(../cac:TaxCategory/cac:TaxScheme/cbc:TaxTypeCode, '6')]), '###.##0,00', 'european')"/>
-												<span>&#160; <xsl:if test="$documentCurrencyCode = 'TRY' or $documentCurrencyCode = 'TRL'"> TL</xsl:if>
-													<xsl:if test="$documentCurrencyCode != 'TRY' and $documentCurrencyCode != 'TRL'">
-														<xsl:text/>
-														<xsl:value-of select="$documentCurrencyCode"/>
-													</xsl:if>
-												</span>
-											</td>
-										</tr>
-										<xsl:for-each select="$invoice/cac:WithholdingTaxTotal/cac:TaxSubtotal[starts-with(./cac:TaxCategory/cac:TaxScheme/cbc:TaxTypeCode, '6')]">
-											<tr>
-												<td>
-													<xsl:text>KDV Tevkifat Tutarı (</xsl:text>
-													<xsl:value-of select="./cac:TaxCategory/cac:TaxScheme/cbc:TaxTypeCode"/>
-													<xsl:text>):</xsl:text>
-												</td>
-												<td>
-													<xsl:value-of select="format-number(cbc:TaxAmount, '###.##0,00', 'european')"/>
-													<span>&#160; <xsl:if test="$documentCurrencyCode = 'TRY' or $documentCurrencyCode = 'TRL'"> TL</xsl:if>
-														<xsl:if test="$documentCurrencyCode != 'TRY' and $documentCurrencyCode != 'TRL'">
-															<xsl:text/>
 															<xsl:value-of select="$documentCurrencyCode"/>
-														</xsl:if>
-													</span>
-												</td>
-											</tr>
-										</xsl:for-each>
-									</xsl:if>
-									<xsl:if test="$invoice/cac:WithholdingTaxTotal/cac:TaxSubtotal[starts-with(./cac:TaxCategory/cac:TaxScheme/cbc:TaxTypeCode, '4')]">
-										<tr>
-											<td>
-												<xsl:text>Tevkifata Tabi İşlem Tutarı (ÖTV)</xsl:text>
-											</td>
-											<td>
-												<xsl:value-of select="format-number(sum($invoice/cac:InvoiceLine/cac:TaxTotal/cac:TaxSubtotal/cbc:TaxableAmount[../../../cac:WithholdingTaxTotal/cac:TaxSubtotal[starts-with(./cac:TaxCategory/cac:TaxScheme/cbc:TaxTypeCode, '4') and ../cac:TaxCategory/cac:TaxScheme/cbc:TaxTypeCode = '0071']]), '###.##0,00', 'european')"/>
-												<span>&#160; <xsl:if test="$documentCurrencyCode = 'TRY' or $documentCurrencyCode = 'TRL'"> TL</xsl:if>
-													<xsl:if test="$documentCurrencyCode != 'TRY' and $documentCurrencyCode != 'TRL'">
-														<xsl:text/>
-														<xsl:value-of select="$documentCurrencyCode"/>
-													</xsl:if>
-												</span>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<xsl:text>Tevkifata Tabi İşlem Üzerinden Hes. ÖTV</xsl:text>
-											</td>
-											<td>
-												<xsl:value-of select="format-number(sum($invoice/cac:WithholdingTaxTotal/cac:TaxSubtotal/cbc:TaxableAmount[starts-with(../cac:TaxCategory/cac:TaxScheme/cbc:TaxTypeCode, '4')]), '###.##0,00', 'european')"/>
-												<span>&#160; <xsl:if test="$documentCurrencyCode = 'TRY' or $documentCurrencyCode = 'TRL'"> TL</xsl:if>
-													<xsl:if test="$documentCurrencyCode != 'TRY' and $documentCurrencyCode != 'TRL'">
-														<xsl:text/>
-														<xsl:value-of select="$documentCurrencyCode"/>
-													</xsl:if>
-												</span>
-											</td>
-										</tr>
-										<xsl:for-each select="$invoice/cac:WithholdingTaxTotal/cac:TaxSubtotal[starts-with(./cac:TaxCategory/cac:TaxScheme/cbc:TaxTypeCode, '4')]">
-											<tr>
-												<td>
-													<xsl:text>ÖTV Tevkifat Tutarı (</xsl:text>
-													<xsl:value-of select="./cac:TaxCategory/cac:TaxScheme/cbc:TaxTypeCode"/>
-													<xsl:text>):</xsl:text>
-												</td>
-												<td>
-													<xsl:value-of select="../cbc:TaxAmount"/>
-													<span>&#160; <xsl:if test="$documentCurrencyCode = 'TRY' or $documentCurrencyCode = 'TRL'"> TL</xsl:if>
-														<xsl:if test="$documentCurrencyCode != 'TRY' and $documentCurrencyCode != 'TRL'">
-															<xsl:text/>
-															<xsl:value-of select="$documentCurrencyCode"/>
-														</xsl:if>
-													</span>
-												</td>
-											</tr>
-										</xsl:for-each>
-									</xsl:if>
-									<xsl:if test="sum($invoice/cac:TaxTotal/cac:TaxSubtotal[cac:TaxCategory/cac:TaxScheme/cbc:TaxTypeCode = '9015']/cbc:TaxableAmount) &gt; 0">
-										<tr>
-											<td>
-												<xsl:text>Tevkifata Tabi İşlem Tutarı:</xsl:text>
-											</td>
-											<td>
-												<xsl:value-of select="format-number(sum($invoice/cac:InvoiceLine[cac:TaxTotal/cac:TaxSubtotal/cac:TaxCategory/cac:TaxScheme/cbc:TaxTypeCode = '9015']/cbc:LineExtensionAmount), '###.##0,00', 'european')"/>
-												<span>&#160; <xsl:if test="$documentCurrencyCode = 'TRY' or $documentCurrencyCode = 'TRL'">TL</xsl:if>
-													<xsl:if test="$documentCurrencyCode != 'TRY' and $documentCurrencyCode != 'TRL'">
-														<xsl:value-of select="$documentCurrencyCode"/>
-													</xsl:if>
-												</span>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<xsl:text>Tevkifata Tabi İşlem Üzerinden Hes. KDV:</xsl:text>
-											</td>
-											<td>
-												<xsl:value-of select="format-number(sum($invoice/cac:TaxTotal/cac:TaxSubtotal[cac:TaxCategory/cac:TaxScheme/cbc:TaxTypeCode = '9015']/cbc:TaxableAmount), '###.##0,00', 'european')"/>
-												<span>&#160; <xsl:if test="$documentCurrencyCode = 'TRY' or $documentCurrencyCode = 'TRL'">TL</xsl:if>
-													<xsl:if test="$documentCurrencyCode != 'TRY' and $documentCurrencyCode != 'TRL'">
-														<xsl:value-of select="$documentCurrencyCode"/>
-													</xsl:if>
-												</span>
-											</td>
-										</tr>
-									</xsl:if>
-									<tr>
-										<td>
-											<xsl:text>Vergiler Dahil Toplam Tutar:</xsl:text>
-										</td>
-										<td>
-											<xsl:value-of select="format-number($taxInclusiveAmount, '###.##0,00', 'european')"/>
-											<xsl:if test="$taxInclusiveAmount/@currencyID">
-												<span>&#160; <xsl:choose>
-														<xsl:when test="$documentCurrencyCode = 'TRY' or $documentCurrencyCode = 'TRL'">TL</xsl:when>
-														<xsl:otherwise>
-															<xsl:value-of select="$taxInclusiveAmount/@currencyID"/>
 														</xsl:otherwise>
 													</xsl:choose>
 												</span>
-											</xsl:if>
-										</td>
-									</tr>
-									<tr>
-										<td>
-											<xsl:text>Ödenecek Tutar:</xsl:text>
-										</td>
-										<td>
-											<xsl:value-of select="format-number($payableAmount, '###.##0,00', 'european')"/>
-											<xsl:if test="$payableAmount/@currencyID">
-												<span>&#160; <xsl:choose>
-														<xsl:when test="$documentCurrencyCode = 'TRY' or $documentCurrencyCode = 'TRL'">TL</xsl:when>
-														<xsl:otherwise>
-															<xsl:value-of select="$payableAmount/@currencyID"/>
-														</xsl:otherwise>
-													</xsl:choose>
-												</span>
-											</xsl:if>
-										</td>
-									</tr>
+											</td>
+										</tr>
+									</xsl:if>
 								</table>
 							</td>
 						</tr>
@@ -1794,56 +1386,18 @@
 					<tbody>
 						<tr>
 							<td>
-								<div id="numberInputToWord"/>
-							</td>
-						</tr>
-						<tr>
-							<td>
 								<div style="clear:both"/>
 								<span>
-									<xsl:if test="//n1:Invoice/cac:PaymentMeans/cbc:InstructionNote">
-										<b>&#214;deme Notu:</b>
-										<xsl:value-of select="//n1:Invoice/cac:PaymentMeans/cbc:InstructionNote"/>
-										<div style="clear:both"/>
-									</xsl:if>
-									<xsl:if test="//n1:Invoice/cac:PaymentMeans/cac:PayeeFinancialAccount/cbc:PaymentNote">
-										<b>Hesap A&#231;&#305;klamas&#305;:</b>
-										<xsl:value-of select="//n1:Invoice/cac:PaymentMeans/cac:PayeeFinancialAccount/cbc:PaymentNote"/>
-										<div style="clear:both"/>
-									</xsl:if>
-									<xsl:if test="//n1:Invoice/cac:PaymentTerms/cbc:Note">
-										<b>&#214;deme Ko&#351;ulu:</b>
-										<xsl:value-of select="//n1:Invoice/cac:PaymentTerms/cbc:Note"/>
-										<div style="clear:both"/>
-									</xsl:if>
-									<xsl:if test="//n1:Invoice/cac:TaxTotal/cac:TaxSubtotal/cac:TaxCategory/cbc:TaxExemptionReason">
-										<b>Vergi Muafiyet Sebebi</b>
-										<xsl:value-of select="//n1:Invoice/cac:TaxTotal/cac:TaxSubtotal/cac:TaxCategory/cbc:TaxExemptionReason"/>
-										<div style="clear:both"/>
-									</xsl:if>
 									<div style="clear:both"/>
-									<div style="clear:both"/>
-									<xsl:if test="//n1:Invoice/cbc:Note">
+									<xsl:if test="//n1:DespatchAdvice/cbc:Note">
 										<b>Genel A&#231;&#305;klamalar</b>
 										<div style="clear:both"/>
-										<xsl:for-each select="//n1:Invoice/cbc:Note">
+										<xsl:for-each select="//n1:DespatchAdvice/cbc:Note">
 											<xsl:value-of select="."/>
 											<div style="clear:both"/>
 										</xsl:for-each>
-										<p id="firmNotes"/>
-										<xsl:if test="//n1:Invoice/cac:PaymentTerms/cbc:PaymentDueDate != ''">
-											<b>Vade Tarihi:</b>
-											<xsl:for-each select="//n1:Invoice/cac:PaymentTerms">
-												<xsl:for-each select="cbc:PaymentDueDate">
-													<xsl:value-of select="substring(., 9, 2)"/>-<xsl:value-of select="substring(., 6, 2)"/>-<xsl:value-of select="substring(., 1, 4)"/>
-												</xsl:for-each>
-											</xsl:for-each>
-											<div style="clear:both"/>
-										</xsl:if>
 									</xsl:if>
 								</span>
-								<xsl:if test="not(//n1:Invoice/cac:DespatchDocumentReference)">
-									İrsaliye yerine geçer. </xsl:if>
 							</td>
 						</tr>
 						<!-- <tr>
@@ -1851,6 +1405,70 @@
 								Add some additional text
 							</td>
 						</tr> -->
+					</tbody>
+				</table>
+				<xsl:if test="//n1:DespatchAdvice/cac:AdditionalDocumentReference and (//n1:DespatchAdvice/cac:AdditionalDocumentReference/cbc:DocumentType != 'XSLT' or //n1:DespatchAdvice/cac:AdditionalDocumentReference/cbc:DocumentTypeCode = 'AddSection')">
+					<p/>
+					<table class="metro-invoice-line-table">
+						<thead>
+							<tr>
+								<td>
+									<strong>İLAVE DÖKÜMANLAR</strong>
+								</td>
+							</tr>
+						</thead>
+						<tbody>
+							<xsl:for-each select="//n1:DespatchAdvice/cac:AdditionalDocumentReference">
+								<xsl:if test="./cbc:DocumentType != 'XSLT' or ./cbc:DocumentTypeCode = 'AddSection'">
+									<xsl:if test="./cbc:ID">
+										<tr>
+											<td>
+												<span style="font-weight:bold;">Belge No: </span>
+												<xsl:value-of select="./cbc:ID"/>
+											</td>
+										</tr>
+									</xsl:if>
+									<xsl:if test="./cbc:IssueDate">
+										<tr>
+											<td>
+												<span style="font-weight:bold;"> Belge Tarihi: </span>
+												<xsl:value-of select="substring(./cbc:IssueDate, 9, 2)"/>-<xsl:value-of select="substring(./cbc:IssueDate, 6, 2)"/>-<xsl:value-of select="substring(./cbc:IssueDate, 1, 4)"/>
+											</td>
+										</tr>
+									</xsl:if>
+									<xsl:if test="./cbc:DocumentType">
+										<tr>
+											<td>
+												<span style="font-weight:bold;"> Belge Tipi: </span>
+												<xsl:value-of select="./cbc:DocumentType"/>
+											</td>
+										</tr>
+									</xsl:if>
+									<xsl:if test="./cac:Attachment">
+										<tr>
+											<td>
+												<span style="font-weight:bold;"> Belge Adı: </span>
+												<xsl:if test="./cac:Attachment/cbc:EmbeddedDocumentBinaryObject">
+													<xsl:value-of select="./cac:Attachment/cbc:EmbeddedDocumentBinaryObject/@filename"/>
+												</xsl:if>
+											</td>
+										</tr>
+									</xsl:if>
+								</xsl:if>
+							</xsl:for-each>
+						</tbody>
+					</table>
+				</xsl:if>
+				<table width="100%">
+					<tbody>
+						<tr>
+							<td align="left">
+								<h3 style="text-align:center; border:solid 2px black; width:200px; height:100px;">Teslim Alan</h3>
+							</td>
+							<td align="right">
+								<h3 style="text-align:center; border:solid 2px black; width:200px; height:100px;">Teslim Eden</h3>
+							</td>
+						</tr>
 					</tbody>
 				</table>
 				<script type="text/javascript">
@@ -1910,13 +1528,14 @@
 			</body>
 		</html>
 	</xsl:template>
+	<xsl:template match="//cbc:IssueDate">
+		<xsl:value-of select="substring(., 9, 2)"/>-<xsl:value-of select="substring(., 6, 2)"/>-<xsl:value-of select="substring(., 1, 4)"/>
+	</xsl:template>
+	<xsl:template match="//cbc:ActualDespatchDate">
+		<xsl:value-of select="substring(., 9, 2)"/>-<xsl:value-of select="substring(., 6, 2)"/>-<xsl:value-of select="substring(., 1, 4)"/>
+	</xsl:template>
 	<xsl:template name="checkProfileID">
-		<xsl:if test="(//n1:Invoice/cbc:ProfileID = 'EARSIVFATURA')">
-			<xsl:text>e-Arşiv</xsl:text>
-		</xsl:if>
-		<xsl:if test="(//n1:Invoice/cbc:ProfileID != 'EARSIVFATURA')">
-			<xsl:text>e-Fatura</xsl:text>
-		</xsl:if>
+		<xsl:text>e-İRSALİYE</xsl:text>
 	</xsl:template>
 	<xsl:template name="TransportMode">
 		<xsl:param name="TransportModeType"/>
@@ -1932,120 +1551,6 @@
 			<xsl:otherwise>
 				<xsl:value-of select="$TransportModeType"/>
 			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:template>
-	<xsl:template name="geneliskonto">
-		<xsl:choose>
-			<xsl:when test="//n1:Invoice/cac:AllowanceCharge/cbc:ChargeIndicator = 'true'">
-				<tr id="lineTableTr">
-					<td> </td>
-					<xsl:choose>
-						<xsl:when test="//n1:Invoice/cbc:ProfileID = 'IHRACAT'">
-							<td>
-								<table border="0">
-									<tbody>
-										<xsl:for-each select="//n1:Invoice/cac:AllowanceCharge[cbc:ChargeIndicator = 'true']">
-											<tr>
-												<td>
-													<xsl:text>&#160;&#160;&#160;&#160;&#160;</xsl:text>
-													<span>
-														<b>
-															<xsl:value-of select="cbc:AllowanceChargeReason"/>
-														</b>
-													</span>
-												</td>
-											</tr>
-										</xsl:for-each>
-									</tbody>
-								</table>
-							</td>
-						</xsl:when>
-						<xsl:otherwise>
-							<td>
-								<table border="0" align="left">
-									<tbody>
-										<xsl:for-each select="//n1:Invoice/cac:AllowanceCharge[cbc:ChargeIndicator = 'true']">
-											<tr>
-												<td>
-													<span>
-														<b>
-															<xsl:text>İndirim</xsl:text>
-														</b>
-													</span>
-												</td>
-											</tr>
-										</xsl:for-each>
-									</tbody>
-								</table>
-							</td>
-							<td> </td>
-						</xsl:otherwise>
-					</xsl:choose>
-					<xsl:choose>
-						<xsl:when test="//n1:Invoice/cbc:ProfileID != 'IHRACAT'">
-							<td> </td>
-						</xsl:when>
-					</xsl:choose>
-					<xsl:choose>
-						<xsl:when test="//n1:Invoice/cbc:ProfileID != 'IHRACAT'">
-							<td> </td>
-						</xsl:when>
-					</xsl:choose>
-					<td> </td>
-					<td> </td>
-					<td>
-						<table border="0">
-							<tbody>
-								<xsl:for-each select="//n1:Invoice/cac:AllowanceCharge[cbc:ChargeIndicator = 'true']">
-									<tr>
-										<td>
-											<span>
-												<b>
-													<xsl:choose>
-														<xsl:when test="normalize-space(./cbc:MultiplierFactorNumeric)">
-															<xsl:text>%</xsl:text>
-															<xsl:value-of select="format-number(./cbc:MultiplierFactorNumeric * 100, '###.##0,00', 'european')"/>
-														</xsl:when>
-														<xsl:otherwise>
-															<xsl:text>%0,00</xsl:text>
-														</xsl:otherwise>
-													</xsl:choose>
-												</b>
-											</span>
-										</td>
-									</tr>
-								</xsl:for-each>
-							</tbody>
-						</table>
-					</td>
-					<td>
-						<table border="0">
-							<tbody>
-								<xsl:for-each select="//n1:Invoice/cac:AllowanceCharge[cbc:ChargeIndicator = 'true']">
-									<tr>
-										<td>
-											<span>
-												<b>
-													<xsl:value-of select="format-number(cbc:Amount, '###.##0,00', 'european')"/>
-													<xsl:if test="cbc:Amount/@currencyID">
-														<xsl:text/>
-														<xsl:if test="cbc:Amount/@currencyID = 'TRY'">
-															<xsl:text>&#160;TL</xsl:text>
-														</xsl:if>
-														<xsl:if test="cbc:Amount/@currencyID != 'TRY'">
-															<xsl:value-of select="cbc:Amount/@currencyID"/>
-														</xsl:if>
-													</xsl:if>
-												</b>
-											</span>
-										</td>
-									</tr>
-								</xsl:for-each>
-							</tbody>
-						</table>
-					</td>
-				</tr>
-			</xsl:when>
 		</xsl:choose>
 	</xsl:template>
 	<xsl:template name="unitCodeTemplate">
