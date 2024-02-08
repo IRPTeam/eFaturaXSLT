@@ -1829,7 +1829,7 @@
 										<div style="clear:both"/>
 									</xsl:if>
 									<xsl:if test="//n1:Invoice/cac:TaxTotal/cac:TaxSubtotal/cac:TaxCategory/cbc:TaxExemptionReason">
-										<b>Vergi Muafiyet Sebebi</b>
+										<b>Vergi Muafiyet Sebebi</b>: 
 										<xsl:value-of select="//n1:Invoice/cac:TaxTotal/cac:TaxSubtotal/cac:TaxCategory/cbc:TaxExemptionReason"/>
 										<div style="clear:both"/>
 									</xsl:if>
