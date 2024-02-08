@@ -601,13 +601,25 @@
 				</div>
 				<div id="numberInput" style="visibility: hidden">
 					<xsl:variable name="currencyCode" select="//n1:Invoice/cbc:DocumentCurrencyCode"/>
-					<xsl:variable name="exchangeRate" select="//n1:Invoice/cac:PricingExchangeRate/cbc:CalculationRate"/>
+					<!--<xsl:variable name="exchangeRate" select="//n1:Invoice/cac:PricingExchangeRate/cbc:CalculationRate"/>
 					<xsl:choose>
 						<xsl:when test="$currencyCode != 'TRY' and $currencyCode != 'TRL'">
 							<xsl:value-of select="format-number(//n1:Invoice/cac:LegalMonetaryTotal/cbc:PayableAmount * $exchangeRate, '#####0,00', 'european')"/>
 						</xsl:when>
 						<xsl:otherwise>
 							<xsl:value-of select="format-number(//n1:Invoice/cac:LegalMonetaryTotal/cbc:PayableAmount, '#####0,00', 'european')"/>
+						</xsl:otherwise>
+					</xsl:choose>-->
+					<xsl:value-of select="format-number(//n1:Invoice/cac:LegalMonetaryTotal/cbc:PayableAmount, '#####0,00', 'european')"/>
+				</div>
+				<div id="currencyCode" style="visibility: hidden">
+					<xsl:variable name="currencyCode" select="//n1:Invoice/cbc:DocumentCurrencyCode"/>
+					<xsl:choose>
+						<xsl:when test="$currencyCode != 'TRY' and $currencyCode != 'TRL'">
+							<xsl:value-of select="//n1:Invoice/cbc:DocumentCurrencyCode"/>
+						</xsl:when>
+						<xsl:otherwise>
+							TL
 						</xsl:otherwise>
 					</xsl:choose>
 				</div>
@@ -1869,44 +1881,46 @@
                         qrcode.makeCode(minJSON);
                     }
                     
-                    makeCode(document.getElementById("qrvalue").innerHTML);//]]></script>
+                    makeCode(document.getElementById("qrvalue").innerHTML);//]]>
+				</script>
 				<script type="text/javascript">
 					<![CDATA[
-    input = document.getElementById("numberInput").innerHTML;
-    const parts = input.split(',');
-    const intPart = parseInt(parts[0], 10);
-    const decPart = parts[1];
-    
-    let text = "";
-    
-    text += convertNumberToWords(intPart);
-    
-    if (decPart !== undefined) {
-        text += ", " + decPart;
-    }
-    document.getElementById("numberInputToWord").innerHTML = "<strong>Yalnız:</strong> " + text + " TL";
-    
-    function convertNumberToWords(number) {
-        const belowTwenty =[ 'Sıfır', 'Bir', 'İki', 'Üç', 'Dört', 'Beş', 'Altı', 'Yedi', 'Sekiz', 'Dokuz', 'On', 'On Bir', 'On İki', 'On Üç', 'On Dört', 'On Beş', 'On Altı', 'On Yedi', 'On Sekiz', 'On Dokuz'];
-        const tens =[ '', '', 'Yirmi', 'Otuz', 'Kırk', 'Elli', 'Altmış', 'Yetmiş', 'Seksen', 'Doksan'];
-        
-        if (number < 20) return belowTwenty[number];
-        if (number < 100) return tens[Math.floor(number / 10)] + (number % 10 !== 0 ? ' ' + belowTwenty[number % 10]: '');
-        
-        if (number === 100) return 'Yüz';
-        if (number < 1000) return (number >= 200 ? belowTwenty[Math.floor(number / 100)] + ' ': '') + 'Yüz' + (number % 100 !== 0 ? ' ' + convertNumberToWords(number % 100): '');
-        
-        if (number === 1000) return 'Bin';
-        if (number < 1000000) return (number >= 2000 ? convertNumberToWords(Math.floor(number / 1000)) + ' ': '') + 'Bin' + (number % 1000 !== 0 ? ' ' + convertNumberToWords(number % 1000): '');
-        
-        if (number === 1000000) return 'Milyon';
-        if (number < 1000000000) return (number >= 2000000 ? convertNumberToWords(Math.floor(number / 1000000)) + ' ': '') + 'Milyon' + (number % 1000000 !== 0 ? ' ' + convertNumberToWords(number % 1000000): '');
-        
-        if (number === 1000000000) return 'Milyar';
-        if (number < 1000000000000) return (number >= 2000000000 ? convertNumberToWords(Math.floor(number / 1000000000)) + ' ': '') + 'Milyar' + (number % 1000000000 !== 0 ? ' ' + convertNumberToWords(number % 1000000000): '');
-        
-        return '';
-    }//]]></script>
+				    input = document.getElementById("numberInput").innerHTML;
+				    const parts = input.split(',');
+				    const intPart = parseInt(parts[0], 10);
+				    const decPart = parts[1];
+				    
+				    let text = "";
+				    
+				    text += convertNumberToWords(intPart);
+				    
+				    if (decPart !== undefined) {
+				        text += ", " + decPart;
+				    }
+				    document.getElementById("numberInputToWord").innerHTML = "<strong>Yalnız:</strong> " + text + " " + document.getElementById("currencyCode").innerHTML;
+				    
+				    function convertNumberToWords(number) {
+				        const belowTwenty =[ 'Sıfır', 'Bir', 'İki', 'Üç', 'Dört', 'Beş', 'Altı', 'Yedi', 'Sekiz', 'Dokuz', 'On', 'On Bir', 'On İki', 'On Üç', 'On Dört', 'On Beş', 'On Altı', 'On Yedi', 'On Sekiz', 'On Dokuz'];
+				        const tens =[ '', '', 'Yirmi', 'Otuz', 'Kırk', 'Elli', 'Altmış', 'Yetmiş', 'Seksen', 'Doksan'];
+				        
+				        if (number < 20) return belowTwenty[number];
+				        if (number < 100) return tens[Math.floor(number / 10)] + (number % 10 !== 0 ? ' ' + belowTwenty[number % 10]: '');
+				        
+				        if (number === 100) return 'Yüz';
+				        if (number < 1000) return (number >= 200 ? belowTwenty[Math.floor(number / 100)] + ' ': '') + 'Yüz' + (number % 100 !== 0 ? ' ' + convertNumberToWords(number % 100): '');
+				        
+				        if (number === 1000) return 'Bin';
+				        if (number < 1000000) return (number >= 2000 ? convertNumberToWords(Math.floor(number / 1000)) + ' ': '') + 'Bin' + (number % 1000 !== 0 ? ' ' + convertNumberToWords(number % 1000): '');
+				        
+				        if (number === 1000000) return 'Milyon';
+				        if (number < 1000000000) return (number >= 2000000 ? convertNumberToWords(Math.floor(number / 1000000)) + ' ': '') + 'Milyon' + (number % 1000000 !== 0 ? ' ' + convertNumberToWords(number % 1000000): '');
+				        
+				        if (number === 1000000000) return 'Milyar';
+				        if (number < 1000000000000) return (number >= 2000000000 ? convertNumberToWords(Math.floor(number / 1000000000)) + ' ': '') + 'Milyar' + (number % 1000000000 !== 0 ? ' ' + convertNumberToWords(number % 1000000000): '');
+				        
+				        return '';
+				    }//]]>
+				</script>
 			</body>
 		</html>
 	</xsl:template>
