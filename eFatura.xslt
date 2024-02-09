@@ -915,7 +915,8 @@
 												<xsl:for-each select="//n1:Invoice">
 													<xsl:for-each select="cbc:IssueDate">
 														<xsl:value-of select="substring(., 9, 2)"/>-<xsl:value-of select="substring(., 6, 2)"/>-<xsl:value-of select="substring(., 1, 4)"/>
-													</xsl:for-each>&#160; <xsl:value-of select="cbc:IssueTime"/>
+													</xsl:for-each>&#160; 
+													<!--<xsl:value-of select="cbc:IssueTime"/>-->
 												</xsl:for-each>
 											</td>
 										</tr>
