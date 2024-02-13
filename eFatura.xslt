@@ -914,9 +914,19 @@
 												<span class="pair_seperator">:</span>
 												<xsl:for-each select="//n1:Invoice">
 													<xsl:for-each select="cbc:IssueDate">
-														<xsl:value-of select="substring(., 9, 2)"/>-<xsl:value-of select="substring(., 6, 2)"/>-<xsl:value-of select="substring(., 1, 4)"/>
-													</xsl:for-each>&#160; 
-													<!--<xsl:value-of select="cbc:IssueTime"/>-->
+														<xsl:value-of select="substring(., 9, 2)"/> - <xsl:value-of select="substring(., 6, 2)"/> - <xsl:value-of select="substring(., 1, 4)"/>
+													</xsl:for-each>													
+												</xsl:for-each>
+											</td>
+										</tr> 
+										<tr>
+											<td>
+												<span class="pair_key">Fatura Saati</span>
+												<span class="pair_seperator">:</span>
+												<xsl:for-each select="//n1:Invoice">
+													<xsl:for-each select="cbc:IssueTime">
+														<xsl:value-of select="substring(., 1, 2)"/> : <xsl:value-of select="substring(., 4, 2)"/> : <xsl:value-of select="substring(., 7, 2)"/>
+													</xsl:for-each>	
 												</xsl:for-each>
 											</td>
 										</tr>
@@ -1073,7 +1083,7 @@
 							</xsl:if>
 							<!--//Malzeme hizmet kodu  normal-->
 							<xsl:if test="//n1:Invoice/cbc:ProfileID != 'IHRACAT'">
-								<td style="width:20%">
+								<td style="width:10%">
 									<xsl:text>Malzeme / Hizmet Açıklaması</xsl:text>
 								</td>
 							</xsl:if>
@@ -1887,18 +1897,20 @@
 				<script type="text/javascript">
 					<![CDATA[
 				    input = document.getElementById("numberInput").innerHTML;
+				    const currencyCode = document.getElementById("currencyCode").innerHTML;
 				    const parts = input.split(',');
 				    const intPart = parseInt(parts[0], 10);
-				    const decPart = parts[1];
+				    const decPart = parseInt(parts[1], 10);
 				    
 				    let text = "";
 				    
 				    text += convertNumberToWords(intPart);
 				    
-				    if (decPart !== undefined) {
-				        text += ", " + decPart;
+				    coin = "";
+				    if (decPart !== undefined && decPart !== 0) {
+				        coin = " " + convertNumberToWords(decPart) + " " + getCoinPresentation(currencyCode);
 				    }
-				    document.getElementById("numberInputToWord").innerHTML = "<strong>Yalnız:</strong> " + text + " " + document.getElementById("currencyCode").innerHTML;
+				    document.getElementById("numberInputToWord").innerHTML = "<strong>Yalnız:</strong> " + text + " " + currencyCode + coin;
 				    
 				    function convertNumberToWords(number) {
 				        const belowTwenty =[ 'Sıfır', 'Bir', 'İki', 'Üç', 'Dört', 'Beş', 'Altı', 'Yedi', 'Sekiz', 'Dokuz', 'On', 'On Bir', 'On İki', 'On Üç', 'On Dört', 'On Beş', 'On Altı', 'On Yedi', 'On Sekiz', 'On Dokuz'];
@@ -1920,7 +1932,35 @@
 				        if (number < 1000000000000) return (number >= 2000000000 ? convertNumberToWords(Math.floor(number / 1000000000)) + ' ': '') + 'Milyar' + (number % 1000000000 !== 0 ? ' ' + convertNumberToWords(number % 1000000000): '');
 				        
 				        return '';
-				    }//]]>
+				    }
+				    function getCoinPresentation(currency) {
+					  const currencyMap = {
+					    'USD': 'cent',
+					    'EUR': 'cent',
+					    'GBP': 'penny',
+					    'JPY': 'sen',
+					    'CHF': 'rappen',
+					    'CNY': 'fen',
+					    'INR': 'paisa',
+					    'RUB': 'kopeck',
+					    'BRL': 'centavo',
+					    'CAD': 'cent',
+					    'AUD': 'cent',
+					    'MXN': 'centavo',
+					    'ZAR': 'cent',
+					    'SGD': 'cent',
+					    'MYR': 'sen',
+					    'TRY': 'kuruş',
+					    'TRL': 'kuruş',
+					    'TL': 'kuruş',
+					    'SEK': 'cent',
+					    'NZD': 'cent',
+					    'HKD': 'cent',
+					    'NOK': 'cent',			    
+					  };
+					  return currencyMap[currency] || '';
+					}
+				    //]]>
 				</script>
 			</body>
 		</html>
@@ -2480,6 +2520,10 @@
 						<xsl:apply-templates/>
 					</xsl:for-each>
 				</xsl:if>
+				<xsl:text> / </xsl:text>
+				<xsl:for-each select="./cac:Country/cbc:Name">
+					<xsl:apply-templates/>
+				</xsl:for-each>			
 			</xsl:for-each>
 		</xsl:for-each>
 	</xsl:template>
