@@ -1394,12 +1394,9 @@
 											<tr>
 												<td class="sumTitle is-long-{string-length(cac:TaxCategory/cac:TaxScheme/cbc:Name) &gt; 15}">
 													<xsl:text>Hesaplanan </xsl:text>
-													<xsl:value-of select="cac:TaxCategory/cac:TaxScheme/cbc:Name"/>
 													<xsl:text> (%</xsl:text>
 													<xsl:value-of select="cbc:Percent"/>
-													<xsl:text>) </xsl:text>
-													<xsl:if test="cac:TaxCategory/cbc:TaxExemptionReasonCode &gt; 0"> (<xsl:value-of select="cac:TaxCategory/cbc:TaxExemptionReasonCode"/>) </xsl:if>
-													<xsl:text>: </xsl:text>
+													<xsl:text>): </xsl:text>
 												</td>
 												<td>
 													<xsl:for-each select="cac:TaxCategory/cac:TaxScheme">
@@ -1626,12 +1623,9 @@
 										<tr>
 											<td>
 												<xsl:text>Hesaplanan </xsl:text>
-												<xsl:value-of select="cac:TaxCategory/cac:TaxScheme/cbc:Name"/>
 												<xsl:text> (%</xsl:text>
 												<xsl:value-of select="cbc:Percent"/>
-												<xsl:text>) </xsl:text>
-												<xsl:if test="cac:TaxCategory/cbc:TaxExemptionReasonCode &gt; 0"> (<xsl:value-of select="cac:TaxCategory/cbc:TaxExemptionReasonCode"/>) </xsl:if>
-												<xsl:text>: </xsl:text>
+												<xsl:text>): </xsl:text>
 											</td>
 											<td>
 												<xsl:for-each select="cac:TaxCategory/cac:TaxScheme">
