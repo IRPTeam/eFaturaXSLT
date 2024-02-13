@@ -1394,6 +1394,7 @@
 											<tr>
 												<td class="sumTitle is-long-{string-length(cac:TaxCategory/cac:TaxScheme/cbc:Name) &gt; 15}">
 													<xsl:text>Hesaplanan </xsl:text>
+													<xsl:value-of select="cac:TaxCategory/cac:TaxScheme/cbc:Name"/>
 													<xsl:text> (%</xsl:text>
 													<xsl:value-of select="cbc:Percent"/>
 													<xsl:text>): </xsl:text>
@@ -1623,6 +1624,7 @@
 										<tr>
 											<td>
 												<xsl:text>Hesaplanan </xsl:text>
+												<xsl:value-of select="cac:TaxCategory/cac:TaxScheme/cbc:Name"/>
 												<xsl:text> (%</xsl:text>
 												<xsl:value-of select="cbc:Percent"/>
 												<xsl:text>): </xsl:text>
