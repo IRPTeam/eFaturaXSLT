@@ -1840,7 +1840,9 @@
 										<b>Genel A&#231;&#305;klamalar</b>
 										<div style="clear:both"/>
 										<xsl:for-each select="//n1:Invoice/cbc:Note">
-											<xsl:value-of select="."/>
+											<div style="white-space: pre-wrap;">
+												<xsl:value-of select="."/>
+											</div>	
 											<div style="clear:both"/>
 										</xsl:for-each>
 										<p id="firmNotes"/>
